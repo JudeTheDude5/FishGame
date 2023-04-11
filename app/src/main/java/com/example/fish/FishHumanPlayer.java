@@ -4,6 +4,7 @@ import static android.graphics.Color.RED;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.GameFramework.GameMainActivity;
@@ -16,8 +17,9 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     private TextView playerHand = null;
     private TextView opponentHand = null;
-    private Number askNum = null;
+    private EditText askNum = null;
     private Button asker = null;
+    private TextView title = null;
 
     private GameMainActivity myActivity;
 
@@ -32,7 +34,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-
+        FishAskAction ask = new FishAskAction(this);
+        game.sendAction(ask);
     }
 
     @Override
@@ -56,12 +59,25 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             for(int j = 0; j < ((FishGameState) info).getPlayer1Hand().size(); ++j) {
                 opponentHand.setText(((FishGameState) info).getPlayer1Hand().get(j) + ", ");
             }
+            title.setText("Go Fish");
+            asker.setText("Ask");
+            askNum.setText("Enter Number, 1-13");
+
+
 
         }
     }
 
     @Override
     public void setAsGui(GameMainActivity activity) {
+        myActivity = activity;
 
+        this.playerHand = (TextView)activity.findViewById(R.id.playerHand);;
+        this.opponentHand = (TextView)activity.findViewById(R.id.opponentHand);;
+        this.title = (TextView)activity.findViewById(R.id.gameTitle);;
+        this.asker = (Button)activity.findViewById(R.id.askForCard);
+        this.askNum = (EditText)activity.findViewById(R.id.cardAskNum);
+
+        asker.setOnClickListener(this);
     }
 }
