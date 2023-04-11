@@ -1,4 +1,18 @@
 package com.example.fish;
 
-public class FishDumbAI {
+import com.example.GameFramework.players.GameComputerPlayer;
+import com.example.GameFramework.infoMessage.GameInfo;
+
+public class FishDumbAI extends GameComputerPlayer {
+
+    public FishDumbAI(String name) {
+        super(name);
+    }
+
+    @Override
+    protected void receiveInfo(GameInfo info) {
+
+    }
+
+
 }
