@@ -48,6 +48,24 @@ public class FishLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+        if(action instanceof FishAskAction) {
+            if(gameState.getCurrentPlayer() == 0) {
+                //Player action, asking for the card
+                return true;
+            }
+            else {
+               //Computer action
+                if(playerNames.equals("Computer Player")) {
+
+                    return true;
+                }
+                if(playerNames.equals("Smart Computer Player")) {
+
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 }
