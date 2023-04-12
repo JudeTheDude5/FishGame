@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class FishMainActivity extends GameMainActivity {
 
     private static final int PORT_NUMBER = 2222;
+    private FishLocalGame sam = new FishLocalGame();
 
     @Override
         public GameConfig createDefaultConfig() {
@@ -43,6 +44,6 @@ public class FishMainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame(GameState gameState) {
-        return new FishLocalGame();
+        return sam;
     }
 }
