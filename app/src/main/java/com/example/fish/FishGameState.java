@@ -16,6 +16,8 @@ public class FishGameState extends GameState {
     private int player0Score;
     private int player1Score;
 
+    private int currAsk;
+
     FishGameState() {
         currentPlayer = 0;
         this.deck = createDeck();
@@ -23,6 +25,7 @@ public class FishGameState extends GameState {
         dealCards(this.player1Hand);
         player0Score = 0;
         player1Score = 0;
+        currAsk = 0;
     }
 
     public FishGameState(FishGameState deep) {
@@ -42,6 +45,7 @@ public class FishGameState extends GameState {
         for(int i = 0; i < deep.player1Hand.size(); i++) {
             this.player1Hand.add(new FishCard(deep.player1Hand.get(i)));
         }
+        this.currAsk = deep.getCurrAsk();
     }
 
     private ArrayList<FishCard> createDeck() {
@@ -105,5 +109,13 @@ public class FishGameState extends GameState {
     }
     public void setPlayer1Score(int player1Score) {
         this.player1Score = player1Score;
+    }
+
+    public int getCurrAsk() {
+        return currAsk;
+    }
+
+    public void setCurrAsk(int currAsk) {
+        this.currAsk = currAsk;
     }
 }
