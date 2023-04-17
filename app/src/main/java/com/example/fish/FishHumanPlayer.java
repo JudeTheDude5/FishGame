@@ -72,6 +72,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
     public void setAsGui(GameMainActivity activity) {
         myActivity = activity;
 
+        activity.setContentView(R.layout.activity_main);
+
         this.playerHand = (TextView)activity.findViewById(R.id.playerHand);;
         this.opponentHand = (TextView)activity.findViewById(R.id.opponentHand);;
         this.title = (TextView)activity.findViewById(R.id.gameTitle);;

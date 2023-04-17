@@ -16,16 +16,19 @@ public class FishGameState extends GameState {
     private int player0Score;
     private int player1Score;
 
-    private int currAsk;
+    //private int currAsk;
 
     FishGameState() {
         currentPlayer = 0;
+        deck = new ArrayList<>();
         this.deck = createDeck();
+        player0Hand = new ArrayList<>();
+        player1Hand = new ArrayList<>();
         dealCards(this.player0Hand);
         dealCards(this.player1Hand);
         player0Score = 0;
         player1Score = 0;
-        currAsk = 0;
+        //currAsk = 0;
     }
 
     public FishGameState(FishGameState deep) {
@@ -45,7 +48,7 @@ public class FishGameState extends GameState {
         for(int i = 0; i < deep.player1Hand.size(); i++) {
             this.player1Hand.add(new FishCard(deep.player1Hand.get(i)));
         }
-        this.currAsk = deep.getCurrAsk();
+        //this.currAsk = deep.getCurrAsk();
     }
 
     private ArrayList<FishCard> createDeck() {
@@ -60,10 +63,11 @@ public class FishGameState extends GameState {
             tempDeck.add(clubCard);
             tempDeck.add(spadeCard);
         }
-        return deck;
+        return tempDeck;
     }
 
     private void dealCards(ArrayList<FishCard> j) {
+        j = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             Random random = new Random();
             int k = random.nextInt(deck.size());
@@ -111,11 +115,11 @@ public class FishGameState extends GameState {
         this.player1Score = player1Score;
     }
 
-    public int getCurrAsk() {
-        return currAsk;
-    }
-
-    public void setCurrAsk(int currAsk) {
-        this.currAsk = currAsk;
-    }
+//    public int getCurrAsk() {
+//        return currAsk;
+//    }
+//
+//    public void setCurrAsk(int currAsk) {
+//        this.currAsk = currAsk;
+//    }
 }

@@ -28,7 +28,10 @@ public abstract class GameState extends GameInfo {
      *
      * @return Number of Setup turns in game
      */
-    public int getNumSetupTurns(){ return numSetupTurns; }
+    public int getNumSetupTurns(){
+
+        return numSetupTurns;
+    }
 
     /**
      * getCurrentSetupTurn
