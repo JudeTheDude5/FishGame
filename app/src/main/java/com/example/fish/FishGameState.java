@@ -24,8 +24,10 @@ public class FishGameState extends GameState {
         this.deck = createDeck();
         player0Hand = new ArrayList<>();
         player1Hand = new ArrayList<>();
-        dealCards(this.player0Hand);
-        dealCards(this.player1Hand);
+        //dealCards(this.player0Hand);
+        this.player0Hand = dealCards();
+        this.player1Hand = dealCards();
+        //dealCards(this.player1Hand);
         player0Score = 0;
         player1Score = 0;
         //currAsk = 0;
@@ -71,15 +73,16 @@ public class FishGameState extends GameState {
         return tempDeck;
     }
 
-    private void dealCards(ArrayList<FishCard> j) {
-        j = new ArrayList<>();
+    private ArrayList<FishCard> dealCards() {
+        ArrayList<FishCard> tempDeck = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             Random random = new Random();
             int k = random.nextInt(deck.size());
-            j.add(deck.get(k));
+            tempDeck.add(deck.get(k));
             deck.remove(k);
 
         }
+        return tempDeck;
     }
 
     public int getCurrentPlayer() {

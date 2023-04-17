@@ -51,14 +51,22 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             return;
         }
         else {
-            playerHand.setText("Player's Hand is: ");
-            opponentHand.setText("Opponent's Hand is ");
+            //playerHand.setText("Player's Hand is: ");
+            //opponentHand.setText("Opponent's Hand is ");
+
+            String playerHandText = "Player's Hand is: ";
+            String opponentHandText = "Opponent's Hand is ";
+
             for(int i = 0; i < ((FishGameState) info).getPlayer0Hand().size(); ++i) {
-                playerHand.setText(((FishGameState) info).getPlayer0Hand().get(i) + ", ");
+                //playerHand.setText(((FishGameState) info).getPlayer0Hand().get(i) + ", ");
+                playerHandText = playerHandText + (((FishGameState) info).getPlayer0Hand().get(i).getValue() + ", ");
             }
             for(int j = 0; j < ((FishGameState) info).getPlayer1Hand().size(); ++j) {
-                opponentHand.setText(((FishGameState) info).getPlayer1Hand().get(j) + ", ");
+                //opponentHand.setText(((FishGameState) info).getPlayer1Hand().get(j).getValue() + ", ");
+                opponentHandText = opponentHandText + (((FishGameState) info).getPlayer1Hand().get(j).getValue() + ", ");
             }
+            playerHand.setText(playerHandText);
+            opponentHand.setText(opponentHandText);
             title.setText("Go Fish");
             asker.setText("Ask");
             askNum.setText("Enter Number, 1-13");

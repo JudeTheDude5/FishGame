@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardAskInsert"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.fish.FishMainActivity">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
         android:id="@+id/top_gui_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="10dp"
         android:weightSum="1">>
 
@@ -52,16 +53,16 @@
                         android:id="@+id/cardAskNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:ems="10"
                         android:inputType="number" />
 
                     <Button
                         android:id="@+id/askForCard"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Button" />
+                        android:text="Ask" />
 
                 </LinearLayout>
             </LinearLayout>
