@@ -34,12 +34,17 @@ public class FishGameState extends GameState {
     public FishGameState(FishGameState deep) {
         currentPlayer = deep.currentPlayer;
 
+        deck = new ArrayList<>();
+
         for(int i = 0; i < deep.deck.size(); i++) {
             this.deck.add(new FishCard(deep.deck.get(i)));
         }
 
         player0Score = deep.player0Score;
         player1Score = deep.player1Score;
+
+        player0Hand = new ArrayList<>();
+        player1Hand = new ArrayList<>();
 
         for(int i = 0; i < deep.player0Hand.size(); i++) {
             this.player0Hand.add(new FishCard(deep.player0Hand.get(i)));
