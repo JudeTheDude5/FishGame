@@ -123,6 +123,41 @@ public class FishGameState extends GameState {
         this.player1Score = player1Score;
     }
 
+    public void checkForFour() {
+        int numHowMany = 0;
+        for(int i = 1; i <= 13; ++i) {
+            for(int j = player0Hand.size() - 1; j > 0; --j) {
+                if((player0Hand.get(j).getValue()) == i) {
+                    numHowMany++;
+                }
+            }
+            if(numHowMany == 4) {
+                for(int j = player0Hand.size() - 1; j > 0; --j) {
+                    if((player0Hand.get(j).getValue()) == i) {
+                        player0Hand.remove(j);
+                    }
+                }
+                player0Score++;
+            }
+            numHowMany = 0;
+
+            for(int j = player1Hand.size() - 1; j > 0; --j) {
+                if((player1Hand.get(j).getValue()) == i) {
+                    numHowMany++;
+                }
+            }
+            if(numHowMany == 4) {
+                for(int j = player1Hand.size() - 1; j > 0; --j) {
+                    if((player1Hand.get(j).getValue()) == i) {
+                        player1Hand.remove(j);
+                    }
+                }
+                player1Score++;
+            }
+            numHowMany = 0;
+        }
+    }
+
 //    public int getCurrAsk() {
 //        return currAsk;
 //    }
