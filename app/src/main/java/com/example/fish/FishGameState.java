@@ -126,13 +126,13 @@ public class FishGameState extends GameState {
     public void checkForFour() {
         int numHowMany = 0;
         for(int i = 1; i <= 13; ++i) {
-            for(int j = player0Hand.size() - 1; j > 0; --j) {
+            for(int j = player0Hand.size() - 1; j >= 0; --j) {
                 if((player0Hand.get(j).getValue()) == i) {
                     numHowMany++;
                 }
             }
             if(numHowMany == 4) {
-                for(int j = player0Hand.size() - 1; j > 0; --j) {
+                for(int j = player0Hand.size() - 1; j >= 0; --j) {
                     if((player0Hand.get(j).getValue()) == i) {
                         player0Hand.remove(j);
                     }
@@ -141,13 +141,13 @@ public class FishGameState extends GameState {
             }
             numHowMany = 0;
 
-            for(int j = player1Hand.size() - 1; j > 0; --j) {
+            for(int j = player1Hand.size() - 1; j >= 0; --j) {
                 if((player1Hand.get(j).getValue()) == i) {
                     numHowMany++;
                 }
             }
             if(numHowMany == 4) {
-                for(int j = player1Hand.size() - 1; j > 0; --j) {
+                for(int j = player1Hand.size() - 1; j >= 0; --j) {
                     if((player1Hand.get(j).getValue()) == i) {
                         player1Hand.remove(j);
                     }

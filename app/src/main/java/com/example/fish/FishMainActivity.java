@@ -23,14 +23,12 @@ public class FishMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name) {
                 return new FishHumanPlayer(name);
             }});
-
-        playerTypes.add(new GamePlayerType("Smart Computer Player") {
-            public GamePlayer createPlayer(String name) { return new FishSmartAI(name); }});
-
         playerTypes.add(new GamePlayerType("Computer Player") {
             public GamePlayer createPlayer(String name) {
                 return new FishDumbAI(name);
             }});
+        playerTypes.add(new GamePlayerType("Smart Computer Player") {
+            public GamePlayer createPlayer(String name) { return new FishSmartAI(name); }});
 
         GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Go Fish", PORT_NUMBER);
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
