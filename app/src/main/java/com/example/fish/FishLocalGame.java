@@ -60,11 +60,10 @@ public class FishLocalGame extends LocalGame {
         FishGameState gameState3 = (FishGameState) super.state;
         if(action instanceof FishAskAction) {
             if (gameState3.getCurrentPlayer() == 0) {
-                if (playerNames.equals("Local Human Player")) {
                     boolean hasCard = false;
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = 0; i < gameState3.getPlayer1Hand().size(); ++i) {
-                        if((R.id.cardAskNum) == gameState3.getPlayer1Hand().get(i).getValue()) {
+                        if((((FishAskAction) action).askNum) == gameState3.getPlayer1Hand().get(i).getValue()) {
                             gameState3.player0Hand.add(gameState3.getPlayer1Hand().get(i));
                             //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
                             gameState3.player1Hand.remove(i);
@@ -88,72 +87,13 @@ public class FishLocalGame extends LocalGame {
                         gameState3.setCurrentPlayer(1);
                         return true;
                     }
-
-                }
-                //Computer action
-                if (playerNames.equals("Computer Player")) {
-                    Random z = new Random();
-                    int num = z.nextInt(13);
-                    boolean hasCard = false;
-                    //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
-                    for(int i = 0; i < gameState3.getPlayer1Hand().size(); ++i) {
-                        if((num +1) == gameState3.getPlayer1Hand().get(i).getValue()) {
-                            gameState3.player0Hand.add(gameState3.getPlayer1Hand().get(i));
-                            //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
-                            gameState3.player1Hand.remove(i);
-                            hasCard = true;
-                        }
-                    }
-                    if(hasCard == true) {
-                        //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
-                        //}
-                        return true;
-                    }
-                    if(hasCard == false) {
-                        Random q = new Random();
-                        int draw = q.nextInt(gameState3.getDeck().size());
-                        gameState3.player0Hand.add(gameState3.getDeck().get(draw));
-                        gameState3.deck.remove(draw);
-                        gameState3.setCurrentPlayer(1);
-                        return true;
-                    }
-                }
-                if (playerNames.equals("Smart Computer Player")) {
-                    //Works Same as DumbAI right now
-                    Random z = new Random();
-                    int num = z.nextInt(13);
-                    boolean hasCard = false;
-                    //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
-                    for(int i = 0; i < gameState3.getPlayer1Hand().size(); ++i) {
-                        if((num +1) == gameState3.getPlayer1Hand().get(i).getValue()) {
-                            gameState3.player0Hand.add(gameState3.getPlayer1Hand().get(i));
-                            //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
-                            gameState3.player1Hand.remove(i);
-                            hasCard = true;
-                        }
-                    }
-                    if(hasCard == true) {
-                        //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
-                        //}
-                        return true;
-                    }
-                    if(hasCard == false) {
-                        Random q = new Random();
-                        int draw = q.nextInt(gameState3.getDeck().size());
-                        gameState3.player0Hand.add(gameState3.getDeck().get(draw));
-                        gameState3.deck.remove(draw);
-                        gameState3.setCurrentPlayer(1);
-                        return true;
-                    }
-                }
                 return false;
             }
             else {
-                if (playerNames.equals("Local Human Player")) {
                     boolean hasCard = false;
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = 0; i < gameState3.getPlayer0Hand().size(); ++i) {
-                        if((R.id.cardAskNum) == gameState3.getPlayer0Hand().get(i).getValue()) {
+                        if((((FishAskAction) action).askNum) == gameState3.getPlayer0Hand().get(i).getValue()) {
                             gameState3.player1Hand.add(gameState3.getPlayer0Hand().get(i));
                             //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
                             gameState3.player0Hand.remove(i);
@@ -177,63 +117,6 @@ public class FishLocalGame extends LocalGame {
                         gameState3.setCurrentPlayer(1);
                         return true;
                     }
-
-                }
-                //Computer action
-                if (playerNames.equals("Computer Player")) {
-                    Random z = new Random();
-                    int num = z.nextInt(13);
-                    boolean hasCard = false;
-                    //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
-                    for(int i = 0; i < gameState3.getPlayer0Hand().size(); ++i) {
-                        if((num +1) == gameState3.getPlayer0Hand().get(i).getValue()) {
-                            gameState3.player1Hand.add(gameState3.getPlayer0Hand().get(i));
-                            //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
-                            gameState3.player0Hand.remove(i);
-                            hasCard = true;
-                        }
-                    }
-                    if(hasCard == true) {
-                        //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
-                        //}
-                        return true;
-                    }
-                    if(hasCard == false) {
-                        Random q = new Random();
-                        int draw = q.nextInt(gameState3.getDeck().size());
-                        gameState3.player1Hand.add(gameState3.getDeck().get(draw));
-                        gameState3.deck.remove(draw);
-                        gameState3.setCurrentPlayer(1);
-                        return true;
-                    }
-                }
-                if (playerNames.equals("Smart Computer Player")) {
-                    Random z = new Random();
-                    int num = z.nextInt(13);
-                    boolean hasCard = false;
-                    //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
-                    for(int i = 0; i < gameState3.getPlayer0Hand().size(); ++i) {
-                        if((num +1) == gameState3.getPlayer0Hand().get(i).getValue()) {
-                            gameState3.player1Hand.add(gameState3.getPlayer0Hand().get(i));
-                            //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
-                            gameState3.player0Hand.remove(i);
-                            hasCard = true;
-                        }
-                    }
-                    if(hasCard == true) {
-                        //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
-                        //}
-                        return true;
-                    }
-                    if(hasCard == false) {
-                        Random q = new Random();
-                        int draw = q.nextInt(gameState3.getDeck().size());
-                        gameState3.player1Hand.add(gameState3.getDeck().get(draw));
-                        gameState3.deck.remove(draw);
-                        gameState3.setCurrentPlayer(1);
-                        return true;
-                    }
-                }
             }
         }
 
