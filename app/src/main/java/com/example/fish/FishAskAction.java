@@ -9,6 +9,8 @@ public class FishAskAction extends GameAction {
      *
      * @param player the player who created the action
      */
+
+
     public FishAskAction(GamePlayer player) {
         super(player);
     }
