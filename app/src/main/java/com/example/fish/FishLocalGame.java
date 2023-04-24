@@ -62,7 +62,7 @@ public class FishLocalGame extends LocalGame {
             if (gameState3.getCurrentPlayer() == 0) {
                     boolean hasCard = false;
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
-                    for(int i = 0; i < gameState3.getPlayer1Hand().size(); ++i) {
+                    for(int i = gameState3.getPlayer1Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer1Hand().get(i).getValue()) {
                             gameState3.player0Hand.add(gameState3.getPlayer1Hand().get(i));
                             //cardsToRemove.add(gameState.getPlayer1Hand().get(i));
@@ -92,7 +92,7 @@ public class FishLocalGame extends LocalGame {
             else {
                     boolean hasCard = false;
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
-                    for(int i = 0; i < gameState3.getPlayer0Hand().size(); ++i) {
+                    for(int i = gameState3.getPlayer0Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer0Hand().get(i).getValue()) {
                             gameState3.player1Hand.add(gameState3.getPlayer0Hand().get(i));
                             //cardsToRemove.add(gameState.getPlayer1Hand().get(i));

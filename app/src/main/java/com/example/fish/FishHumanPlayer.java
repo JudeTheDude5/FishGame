@@ -82,7 +82,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             opponentHand.setText(opponentHandText);
             title.setText("Go Fish");
             asker.setText("Ask");
-            askNum.setText("Enter Number, 1-13");
+            askNum.setText("");
 
 
 
