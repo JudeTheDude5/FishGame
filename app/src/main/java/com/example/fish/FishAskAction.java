@@ -10,8 +10,10 @@ public class FishAskAction extends GameAction {
      * @param player the player who created the action
      */
 
+    public int askNum;
+    public FishAskAction(GamePlayer player, int g) {
 
-    public FishAskAction(GamePlayer player) {
         super(player);
+        askNum = g;
     }
 }

@@ -34,8 +34,21 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        FishAskAction ask = new FishAskAction(this);
-        game.sendAction(ask);
+        int ask = 0;
+        for(int i = 1; i < 14; i++) {
+            if (askNum.getText().toString().equals(i + "")) {
+                ask = i;
+            }
+        }
+
+        if((ask <= 13) && (ask >= 1)) {
+            FishAskAction askAction = new FishAskAction(this,ask);
+            game.sendAction(askAction);
+        }
+        else {
+            title.setText("You have to pick a card that's from 1-13");
+            return;
+        }
     }
 
     @Override
