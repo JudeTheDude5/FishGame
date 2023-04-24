@@ -114,9 +114,10 @@ public class FishLocalGame extends LocalGame {
                         int draw = q.nextInt(gameState3.getDeck().size());
                         gameState3.player1Hand.add(gameState3.getDeck().get(draw));
                         gameState3.deck.remove(draw);
-                        gameState3.setCurrentPlayer(1);
+                        gameState3.setCurrentPlayer(0);
                         return true;
                     }
+                    return false;
             }
         }
 
