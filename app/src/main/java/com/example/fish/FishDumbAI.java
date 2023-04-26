@@ -11,7 +11,6 @@ public class FishDumbAI extends GameComputerPlayer {
         super(name);
     }
 
-    public int askNum;
     @Override
     protected void receiveInfo(GameInfo info) {
         FishGameState recieve = new FishGameState((FishGameState)info);

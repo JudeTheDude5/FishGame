@@ -12,8 +12,7 @@ import java.util.Random;
 
 public class FishLocalGame extends LocalGame {
 
-    private FishGameState gameState;
-
+    //private FishGameState gameState;
 
     public FishLocalGame() {
         super();
@@ -61,6 +60,18 @@ public class FishLocalGame extends LocalGame {
         if(action instanceof FishAskAction) {
             if (gameState3.getCurrentPlayer() == 0) {
                     boolean hasCard = false;
+
+                    //updates the priority and doNotAsk arrays with each ask
+                    if (!(gameState3.getPriority().contains(((FishAskAction) action).askNum))) {
+                        System.out.println("here2");
+                        gameState3.getPriority().add(((FishAskAction) action).askNum);
+                    }
+                    if (gameState3.getDoNotAsk().contains(((FishAskAction) action).askNum)) {
+                        System.out.println("here3");
+                        Integer integerToRemove = ((FishAskAction) action).askNum;
+                        gameState3.getDoNotAsk().remove(integerToRemove);
+                    }
+
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = gameState3.getPlayer1Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer1Hand().get(i).getValue()) {
@@ -75,6 +86,18 @@ public class FishLocalGame extends LocalGame {
 
                         }
                     }
+
+                    System.out.print("Priority array: ");
+                    for (Integer val : gameState3.getPriority()) {
+                        System.out.print(val + " ");
+                    }
+                    System.out.println(" ");
+                    System.out.print("doNotAsk array: ");
+                    for (Integer val : gameState3.getDoNotAsk()) {
+                        System.out.print(val + " ");
+                    }
+                    System.out.println(" ");
+
                     if(hasCard == true) {
                         //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
                         //}
@@ -93,6 +116,14 @@ public class FishLocalGame extends LocalGame {
             }
             else {
                     boolean hasCard = false;
+
+                System.out.println(((FishAskAction) action).askNum);
+                    //updates the priority and doNotAsk arrays with each ask
+                    if (!(gameState3.getDoNotAsk().contains(((FishAskAction) action).askNum))) {
+                        System.out.println("here5");
+                        gameState3.getDoNotAsk().add(((FishAskAction) action).askNum);
+                    }
+
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = gameState3.getPlayer0Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer0Hand().get(i).getValue()) {
@@ -107,6 +138,18 @@ public class FishLocalGame extends LocalGame {
 
                         }
                     }
+
+                    System.out.print("Priority array: ");
+                    for (Integer val : gameState3.getPriority()) {
+                        System.out.print(val + " ");
+                    }
+                    System.out.println(" ");
+                    System.out.print("doNotAsk array: ");
+                    for (Integer val : gameState3.getDoNotAsk()) {
+                        System.out.print(val + " ");
+                    }
+                    System.out.println(" ");
+                    
                     if(hasCard == true) {
                         //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
                         //}

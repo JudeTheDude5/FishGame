@@ -3,18 +3,19 @@ package com.example.fish;
 import com.example.GameFramework.infoMessage.GameInfo;
 import com.example.GameFramework.players.GameComputerPlayer;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 public class FishSmartAI extends GameComputerPlayer {
 
     public FishSmartAI(String name) {
         super(name);
     }
+
     @Override
     protected void receiveInfo(GameInfo info) {
         FishGameState recieve = new FishGameState((FishGameState)info);
-        Random z = new Random();
-        int num = z.nextInt(13) + 1;
+
+        int num = recieve.getSmartVal();
 
         try {
             Thread.sleep(1000);
@@ -31,4 +32,5 @@ public class FishSmartAI extends GameComputerPlayer {
 
         }
     }
+
 }
