@@ -4,6 +4,7 @@ import com.example.GameFramework.infoMessage.GameInfo;
 import com.example.GameFramework.players.GameComputerPlayer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class FishSmartAI extends GameComputerPlayer {
 
@@ -18,7 +19,7 @@ public class FishSmartAI extends GameComputerPlayer {
         int num = recieve.getSmartVal();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500); // 3 seconds total so the turn isn't too quick
             if(recieve.getCurrentPlayer() != this.playerNum) {
                 return;
             }
@@ -26,6 +27,7 @@ public class FishSmartAI extends GameComputerPlayer {
                 FishAskAction play = new FishAskAction(this, num);
                 game.sendAction(play);
             }
+            Thread.sleep(1500);
 
         }
         catch (Exception e) {
