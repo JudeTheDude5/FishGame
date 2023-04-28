@@ -2,6 +2,7 @@ package com.example.fish;
 
 import static android.graphics.Color.RED;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -38,6 +39,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
 
     private GameMainActivity myActivity;
+    private FishGameState fishState;
+
 
     /**
      * constructor

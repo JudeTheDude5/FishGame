@@ -35,6 +35,7 @@ public class FishGameState extends GameState {
         player0Score = 0;
         player1Score = 0;
         //currAsk = 0;
+
     }
 
     public FishGameState(FishGameState deep) {
@@ -235,6 +236,12 @@ public class FishGameState extends GameState {
             intValues.add(card.getValue());
         }
         return intValues.get(0);
+    }
+    public boolean isGameOver() {
+        if(player0Hand.isEmpty() || player1Hand.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
 }

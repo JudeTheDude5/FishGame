@@ -1,7 +1,9 @@
 package com.example.fish;
 
+import android.content.Intent;
 import android.widget.EditText;
 
+import com.example.GameFramework.GameMainActivity;
 import com.example.GameFramework.LocalGame;
 import com.example.GameFramework.actionMessage.GameAction;
 import com.example.GameFramework.players.GamePlayer;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FishLocalGame extends LocalGame {
+    private GameMainActivity myActivity;
 
     //private FishGameState gameState;
 
