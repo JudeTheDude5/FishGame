@@ -15,7 +15,16 @@ public class FishDumbAI extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
         FishGameState recieve = new FishGameState((FishGameState)info);
         Random z = new Random();
-        int num = z.nextInt(13) + 1;
+        int num = 1;
+        int rand = 0;
+        if(this.playerNum == 0) {
+            rand = z.nextInt(recieve.player0Hand.size());
+            num = recieve.player0Hand.get(rand).getValue();
+        }
+        else if(this.playerNum == 1) {
+            rand = z.nextInt(recieve.player1Hand.size());
+            num = recieve.player1Hand.get(rand).getValue();
+        }
 
         try {
             Thread.sleep(1000);
