@@ -14,6 +14,7 @@ import com.example.GameFramework.utilities.GameTimer;
 import com.example.GameFramework.utilities.Logger;
 import com.example.GameFramework.utilities.MessageBox;
 import com.example.GameFramework.utilities.Tickable;
+import com.example.game_test_b.R;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -180,7 +181,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         public void run() {
             View top = GameHumanPlayer.this.getTopView();
             if (top == null) return;
-            top.setBackgroundColor(oldColor);
+            top.setBackgroundResource(R.drawable.fish_background);
         }
     }
 

@@ -17,6 +17,7 @@ public class FishGameState extends GameState {
     //private Map<Integer, Integer> playerScores; // ..scores?!
     private int player0Score;
     private int player1Score;
+    public ArrayList<FishCard> recentAsk;
 
     //private int currAsk;
 

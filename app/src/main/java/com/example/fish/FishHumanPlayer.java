@@ -2,15 +2,8 @@ package com.example.fish;
 
 import static android.graphics.Color.RED;
 
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +14,6 @@ import com.example.GameFramework.infoMessage.GameInfo;
 import com.example.GameFramework.players.GameHumanPlayer;
 import com.example.game_test_b.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -40,6 +32,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     private GameMainActivity myActivity;
     private FishGameState fishState;
+    private ImageView AIAsk = null;
 
 
     /**
@@ -72,7 +65,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     @Override
     public View getTopView() {
-        return myActivity.findViewById(R.id.layout_main);
+        return myActivity.findViewById(R.id.layout);
     }
     //Need to set up view for GUI
 
@@ -114,6 +107,9 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             setPlayerCardImages(playerArrHand, images);
             setOpponentCardImages(opponentArrHand, opponentImages);
             setDeck();
+            setAsk();
+            // set the background image
+            setBackground(R.drawable.fish_background);
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
@@ -162,6 +158,16 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
         // initialize deck to deck on GUI
         this.deck = (ImageButton) activity.findViewById(R.id.deck);
+
+        //set the background image
+        //LinearLayout layout = (LinearLayout) activity.findViewById(R.id.layout);
+        //layout.setBackgroundResource(R.drawable.fish_background);
+
+        // set the background image
+        setBackground(R.drawable.fish_background);
+
+        //show what AI ask for
+        this.AIAsk = (ImageView) activity.findViewById(R.id.AIAsk);
     }
 
     // helper method to set the card images on game start
@@ -250,6 +256,22 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         int imageResource = myActivity.getResources().getIdentifier("card_back",
                 "drawable", myActivity.getPackageName());
         deck.setImageResource(imageResource);
+    }
+
+    // sets AIAsk image
+    public void setAsk () {
+        AIAsk.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
+        AIAsk.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        // sets the ImageView on card to the corresponding filename
+        int imageResource = myActivity.getResources().getIdentifier("card_back",
+                "drawable", myActivity.getPackageName());
+        AIAsk.setImageResource(imageResource);
+    }
+
+    public void setBackground(int resourceId) {
+        LinearLayout layout = (LinearLayout) myActivity.findViewById(R.id.layout);
+        layout.setBackgroundResource(resourceId);
     }
 
     // num to string for before stacking
