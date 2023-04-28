@@ -5,9 +5,7 @@ import static android.graphics.Color.RED;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,8 +29,11 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     private LinearLayout playerLayout = null;
     private LinearLayout opponentLayout = null;
-    private ImageButton deck = null;
+    private TextView playerHand = null;
     private TextView opponentHand = null;
+    private EditText askNum = null;
+    private Button asker = null;
+    private TextView title = null;
     private ArrayList<ImageButton> images;
     private ArrayList<ImageButton> opponentImages;
 
@@ -75,23 +76,24 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     @Override
     public void receiveInfo(GameInfo info) {
+        // ArrayLists of player and opponent hand
+        ArrayList<FishCard> playerArrHand = ((FishGameState) info).getPlayer0Hand();
+        ArrayList<FishCard> opponentArrHand = ((FishGameState) info).getPlayer1Hand();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            playerArrHand.sort(new Comparator<FishCard>() {
+                @Override
+                public int compare(FishCard fishCard1, FishCard fishCard2) {
+                    return Integer.compare(fishCard1.getValue(), fishCard2.getValue());
+                }
+            });
+        }
+
         if (!(info instanceof FishGameState)) {
             flash(RED, 2);
             return;
         }
         else {
-            // ArrayLists of player and opponent hand
-            ArrayList<FishCard> playerArrHand = ((FishGameState) info).getPlayer0Hand();
-            ArrayList<FishCard> opponentArrHand = ((FishGameState) info).getPlayer1Hand();
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                playerArrHand.sort(new Comparator<FishCard>() {
-                    @Override
-                    public int compare(FishCard fishCard1, FishCard fishCard2) {
-                        return Integer.compare(fishCard1.getValue(), fishCard2.getValue());
-                    }
-                });
-            }
             // TESTING/////////////////////////////
             String playerHandText = "";
             String opponentHandText = "";
@@ -123,6 +125,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                     }
                 });
             }
+
         }
     }
 
@@ -135,6 +138,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         // instantiate layouts where the cards are
         this.playerLayout = (LinearLayout) activity.findViewById(R.id.player_hand);
         this.opponentLayout = (LinearLayout) activity.findViewById(R.id.opponent_hand);
+        this.playerHand = (TextView) activity.findViewById(R.id.player);
+        this.opponentHand = (TextView) activity.findViewById(R.id.opponent);
 
         // initialize image array to cards on the GUI
         this.images = new ArrayList<>();
@@ -166,13 +171,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         playerLayout.removeAllViews();
         images.clear();
 
-        Map<Integer, Integer> cardCounts = new HashMap<>();
-
         // loops through the player hand and assigns the correct card image
         for (int i = 0; i < numCards; i++) {
-            // variables
-            int value = hand.get(i).getValue();
-
             // makes a new image button
             ImageButton imageButton = new ImageButton(myActivity);
             imageButton.setLayoutParams(new LinearLayout.LayoutParams(100, 150));
@@ -184,23 +184,9 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                     "drawable", myActivity.getPackageName());
             imageButton.setImageResource(imageResource);
 
-            // if card is already in hand, stack the card
-            if (cardCounts.containsKey(value)) {
-                cardCounts.put(value, cardCounts.get(value) + 1);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageButton.getLayoutParams();
-                params.setMargins(-80, 0, 0, 0);
-                imageButton.setLayoutParams(params);
-                images.add(imageButton);
-                playerLayout.addView(imageButton);
-            }
-
-            // if it isn't in the hand already
-            else {
-                // adds the image button normally
-                images.add(imageButton);
-                playerLayout.addView(imageButton); // add the ImageButton to the playerLayout
-                cardCounts.put(value, 1);
-            }
+            // adds the image button to the ArrayList of image buttons representing the hand
+            images.add(imageButton);
+            playerLayout.addView(imageButton); // add the ImageButton to the playerLayout
         }
     }
 
@@ -213,7 +199,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         opponentImages.clear();
 
         for (int i = 0; i < numCards; i++) {
-            // FishCard card = hand.get(i);
+            FishCard card = hand.get(i);
             ImageButton imageButton = new ImageButton(myActivity);
             imageButton.setLayoutParams(new LinearLayout.LayoutParams(100, 150));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -223,19 +209,10 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                     "drawable", myActivity.getPackageName());
             imageButton.setImageResource(imageResource);
 
-            // overlap opponent cards
-            if (i > 0) {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageButton.getLayoutParams();
-                params.setMargins(-60, 0, 0, 0);
-                imageButton.setLayoutParams(params);
-            }
+            // Add the ImageButton to the playerLayout
             images.add(imageButton);
             opponentLayout.addView(imageButton);
         }
-    }
-
-    public void setDeck () {
-
     }
 
     // num to string for before stacking
@@ -300,6 +277,64 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         }
         return stringNum;
     }
+
+//    // num to string for after stacking
+//    public String numToStringStack(int value) {
+//        String stringNum = "";
+//        switch (value) {
+//            case 1:
+//                stringNum = "ace";
+//                break;
+//            case 2:
+//                stringNum = "two";
+//                break;
+//            case 3:
+//                stringNum = "three";
+//                break;
+//            case 4:
+//                stringNum = "four";
+//                break;
+//            case 5:
+//                stringNum = "five";
+//                break;
+//            case 6:
+//                stringNum = "six";
+//                break;
+//            case 7:
+//                stringNum = "seven";
+//                break;
+//            case 8:
+//                stringNum = "eight";
+//                break;
+//            case 9:
+//                stringNum = "nine";
+//                break;
+//            case 10:
+//                stringNum = "ten";
+//                break;
+//            case 11:
+//                stringNum = "jack";
+//                break;
+//            case 12:
+//                stringNum = "queen";
+//                break;
+//            case 13:
+//                stringNum = "king";
+//                break;
+//        }
+//        return stringNum;
+//    }
+
+//    // gets card faces file names of the same value
+//    public String getCardFaces(String str) {
+//        int index = str.indexOf('_');
+//        if (index == -1) {
+//            return str;
+//        }
+//        else {
+//            return "";
+//        }
+//    }
 }
 
 
