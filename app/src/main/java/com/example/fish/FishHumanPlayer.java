@@ -28,6 +28,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
     private TextView opponentHand = null;
     private ArrayList<ImageButton> images;
     private ArrayList<ImageButton> opponentImages;
+    private TextView oppScore = null;
+    private TextView myScore = null;
 
 
     private GameMainActivity myActivity;
@@ -91,6 +93,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             // TESTING/////////////////////////////
             String playerHandText = "";
             String opponentHandText = "";
+            String playerScoreText = "";
+            String opponentScoreText = "";
 
             for (int i = 0; i < playerArrHand.size(); ++i) {
                 playerHandText = playerHandText + (playerArrHand.get(i).getValue() + ", ");
@@ -98,10 +102,22 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             for (int j = 0; j < ((FishGameState) info).getPlayer1Hand().size(); ++j) {
                 opponentHandText = opponentHandText + (((FishGameState) info).getPlayer1Hand().get(j).getValue() + ", ");
             }
+            playerScoreText = String.valueOf(((FishGameState) info).getPlayer0Score());
+            opponentScoreText = String.valueOf(((FishGameState) info).getPlayer1Score());
+
             System.out.println(playerHandText);
             System.out.println(opponentHandText);
 //            opponentHand.setText(opponentHandText);
             ///////////////////////////////////////////
+
+            // updates the score
+            myScore.setText(playerScoreText);
+            oppScore.setText(opponentScoreText);
+
+            // updates the deck to be invisible once cards are gone
+            if (((FishGameState) info).getDeck().isEmpty()) {
+                deck.setVisibility(View.INVISIBLE);
+            }
 
             // updates card images for both player and opponent hand
             setPlayerCardImages(playerArrHand, images);
@@ -165,6 +181,10 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
         // initialize deck to deck on GUI
         this.deck = (ImageButton) activity.findViewById(R.id.deck);
+
+        // initialize scores
+        this.myScore = (TextView) activity.findViewById(R.id.player0score);
+        this.oppScore = (TextView) activity.findViewById(R.id.player1score);
 
         //set the background image
         //LinearLayout layout = (LinearLayout) activity.findViewById(R.id.layout);
