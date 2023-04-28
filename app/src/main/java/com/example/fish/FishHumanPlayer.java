@@ -127,10 +127,10 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             setBackground(R.drawable.fish_background);
             //show what AI ask for
             if(((FishGameState) info).getCurrAsk() == 0) {
-                this.lastAsk.setText("No Card Has Been Asked For Yet");
+                this.lastAsk.setText("No Card Has Been Asked Yet");
             }
             else {
-                this.lastAsk.setText("Last Card Asked For Was A " + ((FishGameState) info).getCurrAsk());
+                this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
             }
 
 
