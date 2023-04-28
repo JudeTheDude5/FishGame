@@ -7,7 +7,7 @@
     android:paddingTop="5sp"
     android:background="#0a6c03">
 
-    <!-- Opponent Hand -->
+    <!-- The deck of cards in the middle -->
     <LinearLayout
         android:id="@+id/opponent_hand"
         android:layout_width="match_parent"
@@ -96,10 +96,9 @@
 
     </LinearLayout>
 
-    <!-- The Deck -->
+    <!-- The player's hand at the bottom -->
 
     <LinearLayout
-        android:id="@+id/deck_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
