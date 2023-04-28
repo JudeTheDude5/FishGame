@@ -110,6 +110,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             // updates card images for both player and opponent hand
             setPlayerCardImages(playerArrHand, images);
             setOpponentCardImages(opponentArrHand, opponentImages);
+            setDeck();
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
@@ -155,6 +156,9 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card5));
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card6));
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card7));
+
+        // initialize deck to deck on GUI
+        this.deck = (ImageButton) activity.findViewById(R.id.deck);
     }
 
     // helper method to set the card images on game start
@@ -175,7 +179,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
             // makes a new image button
             ImageButton imageButton = new ImageButton(myActivity);
-            imageButton.setLayoutParams(new LinearLayout.LayoutParams(100, 150));
+            imageButton.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
             String fileName = numToString(hand, i); // finds file name for card value
 
@@ -188,7 +192,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             if (cardCounts.containsKey(value)) {
                 cardCounts.put(value, cardCounts.get(value) + 1);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageButton.getLayoutParams();
-                params.setMargins(-80, 0, 0, 0);
+                params.setMargins(-90, 0, 0, 0);
                 imageButton.setLayoutParams(params);
                 images.add(imageButton);
                 playerLayout.addView(imageButton);
@@ -215,7 +219,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         for (int i = 0; i < numCards; i++) {
             // FishCard card = hand.get(i);
             ImageButton imageButton = new ImageButton(myActivity);
-            imageButton.setLayoutParams(new LinearLayout.LayoutParams(100, 150));
+            imageButton.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
 
             // sets the ImageViews on each card to the corresponding filename
@@ -226,7 +230,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             // overlap opponent cards
             if (i > 0) {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageButton.getLayoutParams();
-                params.setMargins(-60, 0, 0, 0);
+                params.setMargins(-80, 0, 0, 0);
                 imageButton.setLayoutParams(params);
             }
             images.add(imageButton);
@@ -234,8 +238,15 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         }
     }
 
+    // sets deck image
     public void setDeck () {
+        deck.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
+        deck.setScaleType(ImageView.ScaleType.FIT_XY);
 
+        // sets the ImageViews on each card to the corresponding filename
+        int imageResource = myActivity.getResources().getIdentifier("card_back",
+                "drawable", myActivity.getPackageName());
+        deck.setImageResource(imageResource);
     }
 
     // num to string for before stacking
