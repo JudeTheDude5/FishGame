@@ -2,9 +2,15 @@ package com.example.fish;
 
 import static android.graphics.Color.RED;
 
+import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.GameFramework.GameMainActivity;
@@ -12,14 +18,25 @@ import com.example.GameFramework.infoMessage.GameInfo;
 import com.example.GameFramework.players.GameHumanPlayer;
 import com.example.game_test_b.R;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
 
+    private LinearLayout playerLayout = null;
+    private LinearLayout opponentLayout = null;
     private TextView playerHand = null;
     private TextView opponentHand = null;
     private EditText askNum = null;
     private Button asker = null;
     private TextView title = null;
+    private ArrayList<ImageButton> images;
+    private ArrayList<ImageButton> opponentImages;
+
 
     private GameMainActivity myActivity;
 
@@ -34,73 +51,290 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        int ask = 0;
-        for(int i = 1; i < 14; i++) {
-            if (askNum.getText().toString().equals(i + "")) {
-                ask = i;
-            }
-        }
-
-        if((ask <= 13) && (ask >= 1)) {
-            FishAskAction askAction = new FishAskAction(this,ask);
-            game.sendAction(askAction);
-        }
-        else {
-            title.setText("You have to pick a card that's from 1-13");
-            return;
-        }
+//        int ask = 0;
+//        for(int i = 1; i < 14; i++) {
+//            if (askNum.getText().toString().equals(i + "")) {
+//                ask = i;
+//            }
+//        }
+//
+//        if((ask <= 13) && (ask >= 1)) {
+//            FishAskAction askAction = new FishAskAction(this,ask);
+//            game.sendAction(askAction);
+//        }
+//        else {
+//            title.setText("You have to pick a card that's from 1-13");
+//            return;
+//        }
     }
 
     @Override
     public View getTopView() {
-        return myActivity.findViewById(R.id.top_gui_layout);
+        return myActivity.findViewById(R.id.layout_main);
     }
     //Need to set up view for GUI
 
     @Override
     public void receiveInfo(GameInfo info) {
-        if(!(info instanceof FishGameState)) {
-            flash(RED,2);
+        // ArrayLists of player and opponent hand
+        ArrayList<FishCard> playerArrHand = ((FishGameState) info).getPlayer0Hand();
+        ArrayList<FishCard> opponentArrHand = ((FishGameState) info).getPlayer1Hand();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            playerArrHand.sort(new Comparator<FishCard>() {
+                @Override
+                public int compare(FishCard fishCard1, FishCard fishCard2) {
+                    return Integer.compare(fishCard1.getValue(), fishCard2.getValue());
+                }
+            });
+        }
+
+        if (!(info instanceof FishGameState)) {
+            flash(RED, 2);
             return;
         }
         else {
-            //playerHand.setText("Player's Hand is: ");
-            //opponentHand.setText("Opponent's Hand is ");
+            // TESTING/////////////////////////////
+            String playerHandText = "";
+            String opponentHandText = "";
 
-            String playerHandText = "Player's Hand is: ";
-            String opponentHandText = "Opponent's Hand is ";
-
-            for(int i = 0; i < ((FishGameState) info).getPlayer0Hand().size(); ++i) {
-                //playerHand.setText(((FishGameState) info).getPlayer0Hand().get(i) + ", ");
-                playerHandText = playerHandText + (((FishGameState) info).getPlayer0Hand().get(i).getValue() + ", ");
+            for (int i = 0; i < playerArrHand.size(); ++i) {
+                playerHandText = playerHandText + (playerArrHand.get(i).getValue() + ", ");
             }
-            for(int j = 0; j < ((FishGameState) info).getPlayer1Hand().size(); ++j) {
-                //opponentHand.setText(((FishGameState) info).getPlayer1Hand().get(j).getValue() + ", ");
+            for (int j = 0; j < ((FishGameState) info).getPlayer1Hand().size(); ++j) {
                 opponentHandText = opponentHandText + (((FishGameState) info).getPlayer1Hand().get(j).getValue() + ", ");
             }
-            playerHand.setText(playerHandText);
+            System.out.println(playerHandText);
+            System.out.println(opponentHandText);
             opponentHand.setText(opponentHandText);
-            title.setText("Go Fish");
-            asker.setText("Ask");
-            askNum.setText("");
+            ///////////////////////////////////////////
 
+            // updates card images for both player and opponent hand
+            setPlayerCardImages(playerArrHand, images);
+            setOpponentCardImages(opponentArrHand, opponentImages);
 
+            // set on click listeners for each player card
+            for (int i = 0; i < images.size(); i++) {
+                final int index = i; // store the current index
+                images.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int ask = playerArrHand.get(index).getValue();
+                        FishAskAction askAction = new FishAskAction(FishHumanPlayer.this, ask);
+                        game.sendAction(askAction);
+                    }
+                });
+            }
 
         }
     }
 
     @Override
     public void setAsGui(GameMainActivity activity) {
+        // activity instance
         myActivity = activity;
-
         activity.setContentView(R.layout.activity_main);
 
-        this.playerHand = (TextView)activity.findViewById(R.id.playerHand);;
-        this.opponentHand = (TextView)activity.findViewById(R.id.opponentHand);;
-        this.title = (TextView)activity.findViewById(R.id.gameTitle);;
-        this.asker = (Button)activity.findViewById(R.id.askForCard);
-        this.askNum = (EditText)activity.findViewById(R.id.cardAskNum);
+        // instantiate layouts where the cards are
+        this.playerLayout = (LinearLayout) activity.findViewById(R.id.player_hand);
+        this.opponentLayout = (LinearLayout) activity.findViewById(R.id.opponent_hand);
+        this.playerHand = (TextView) activity.findViewById(R.id.player);
+        this.opponentHand = (TextView) activity.findViewById(R.id.opponent);
 
-        asker.setOnClickListener(this);
+        // initialize image array to cards on the GUI
+        this.images = new ArrayList<>();
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card1));
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card2));
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card3));
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card4));
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card5));
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card6));
+        this.images.add((ImageButton) activity.findViewById(R.id.player_card7));
+
+        // initialize opponent images to the cards on the GUI
+        this.opponentImages = new ArrayList<>();
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card1));
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card2));
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card3));
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card4));
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card5));
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card6));
+        this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card7));
     }
+
+    // helper method to set the card images on game start
+    public void setPlayerCardImages(ArrayList<FishCard> hand, ArrayList<ImageButton> images) {
+        // variables
+        int numCards = hand.size();
+
+        // resets view for redraw
+        playerLayout.removeAllViews();
+        images.clear();
+
+        // loops through the player hand and assigns the correct card image
+        for (int i = 0; i < numCards; i++) {
+            // makes a new image button
+            ImageButton imageButton = new ImageButton(myActivity);
+            imageButton.setLayoutParams(new LinearLayout.LayoutParams(100, 150));
+            imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+            String fileName = numToString(hand, i); // finds file name for card value
+
+            // sets the ImageViews on each card to the corresponding filename
+            int imageResource = myActivity.getResources().getIdentifier(fileName,
+                    "drawable", myActivity.getPackageName());
+            imageButton.setImageResource(imageResource);
+
+            // adds the image button to the ArrayList of image buttons representing the hand
+            images.add(imageButton);
+            playerLayout.addView(imageButton); // add the ImageButton to the playerLayout
+        }
+    }
+
+    public void setOpponentCardImages(ArrayList<FishCard> hand, ArrayList<ImageButton> images) {
+        // variables
+        int numCards = hand.size();
+
+        // clear opponent layout
+        opponentLayout.removeAllViews();
+        opponentImages.clear();
+
+        for (int i = 0; i < numCards; i++) {
+            FishCard card = hand.get(i);
+            ImageButton imageButton = new ImageButton(myActivity);
+            imageButton.setLayoutParams(new LinearLayout.LayoutParams(100, 150));
+            imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            // sets the ImageViews on each card to the corresponding filename
+            int imageResource = myActivity.getResources().getIdentifier("card_back",
+                    "drawable", myActivity.getPackageName());
+            imageButton.setImageResource(imageResource);
+
+            // Add the ImageButton to the playerLayout
+            images.add(imageButton);
+            opponentLayout.addView(imageButton);
+        }
+    }
+
+    // num to string for before stacking
+    public String numToString(ArrayList<FishCard> hand, int i) {
+        FishCard card = hand.get(i);
+        String stringNum = "";
+        switch (card.getValue()) {
+            case 1:
+                stringNum = "ace";
+                break;
+            case 2:
+                stringNum = "two";
+                break;
+            case 3:
+                stringNum = "three";
+                break;
+            case 4:
+                stringNum = "four";
+                break;
+            case 5:
+                stringNum = "five";
+                break;
+            case 6:
+                stringNum = "six";
+                break;
+            case 7:
+                stringNum = "seven";
+                break;
+            case 8:
+                stringNum = "eight";
+                break;
+            case 9:
+                stringNum = "nine";
+                break;
+            case 10:
+                stringNum = "ten";
+                break;
+            case 11:
+                stringNum = "jack";
+                break;
+            case 12:
+                stringNum = "queen";
+                break;
+            case 13:
+                stringNum = "king";
+                break;
+        }
+        stringNum += "_of_";
+        switch (card.getRank()) {
+            case "hearts":
+                stringNum += "hearts";
+                break;
+            case "diamonds":
+                stringNum += "diamonds";
+                break;
+            case "clubs":
+                stringNum += "clubs";
+                break;
+            case "spades":
+                stringNum += "spades";
+                break;
+        }
+        return stringNum;
+    }
+
+//    // num to string for after stacking
+//    public String numToStringStack(int value) {
+//        String stringNum = "";
+//        switch (value) {
+//            case 1:
+//                stringNum = "ace";
+//                break;
+//            case 2:
+//                stringNum = "two";
+//                break;
+//            case 3:
+//                stringNum = "three";
+//                break;
+//            case 4:
+//                stringNum = "four";
+//                break;
+//            case 5:
+//                stringNum = "five";
+//                break;
+//            case 6:
+//                stringNum = "six";
+//                break;
+//            case 7:
+//                stringNum = "seven";
+//                break;
+//            case 8:
+//                stringNum = "eight";
+//                break;
+//            case 9:
+//                stringNum = "nine";
+//                break;
+//            case 10:
+//                stringNum = "ten";
+//                break;
+//            case 11:
+//                stringNum = "jack";
+//                break;
+//            case 12:
+//                stringNum = "queen";
+//                break;
+//            case 13:
+//                stringNum = "king";
+//                break;
+//        }
+//        return stringNum;
+//    }
+
+//    // gets card faces file names of the same value
+//    public String getCardFaces(String str) {
+//        int index = str.indexOf('_');
+//        if (index == -1) {
+//            return str;
+//        }
+//        else {
+//            return "";
+//        }
+//    }
 }
+
+
