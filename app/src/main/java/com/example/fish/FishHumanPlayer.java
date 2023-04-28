@@ -32,7 +32,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     private GameMainActivity myActivity;
     private FishGameState fishState;
-    private ImageView AIAsk = null;
+    private TextView lastAsk = null;
 
 
     /**
@@ -107,9 +107,16 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             setPlayerCardImages(playerArrHand, images);
             setOpponentCardImages(opponentArrHand, opponentImages);
             setDeck();
-            setAsk();
             // set the background image
             setBackground(R.drawable.fish_background);
+            //show what AI ask for
+            if(((FishGameState) info).getCurrAsk() == 0) {
+                this.lastAsk.setText("No Card Has Been Asked For Yet");
+            }
+            else {
+                this.lastAsk.setText("Last Card Asked For Was A " + ((FishGameState) info).getCurrAsk());
+            }
+
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
@@ -167,7 +174,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         setBackground(R.drawable.fish_background);
 
         //show what AI ask for
-        this.AIAsk = (ImageView) activity.findViewById(R.id.AIAsk);
+        this.lastAsk = (TextView) activity.findViewById(R.id.lastAsk);
     }
 
     // helper method to set the card images on game start
@@ -256,17 +263,6 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         int imageResource = myActivity.getResources().getIdentifier("card_back",
                 "drawable", myActivity.getPackageName());
         deck.setImageResource(imageResource);
-    }
-
-    // sets AIAsk image
-    public void setAsk () {
-        AIAsk.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
-        AIAsk.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        // sets the ImageView on card to the corresponding filename
-        int imageResource = myActivity.getResources().getIdentifier("card_back",
-                "drawable", myActivity.getPackageName());
-        AIAsk.setImageResource(imageResource);
     }
 
     public void setBackground(int resourceId) {

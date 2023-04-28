@@ -73,6 +73,7 @@ public class FishLocalGame extends LocalGame {
                         gameState3.getDoNotAsk().remove(integerToRemove);
                     }
 
+                    gameState3.setCurrAsk(((FishAskAction) action).askNum);
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = gameState3.getPlayer1Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer1Hand().get(i).getValue()) {
@@ -118,6 +119,8 @@ public class FishLocalGame extends LocalGame {
                         gameState3.getDoNotAsk().add(((FishAskAction) action).askNum);
                     }
 
+
+                    gameState3.setCurrAsk(((FishAskAction) action).askNum);
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = gameState3.getPlayer0Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer0Hand().get(i).getValue()) {
