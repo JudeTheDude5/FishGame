@@ -12,7 +12,6 @@ public class FishGameState extends GameState {
     public ArrayList<FishCard> deck;
     public ArrayList<FishCard> player0Hand; //Map of the player ID to their hand of cards
     public ArrayList<FishCard> player1Hand;
-    public int computerAsk;
     public ArrayList<Integer> priority;
     public ArrayList<Integer> doNotAsk;
     //private Map<Integer, Integer> playerScores; // ..scores?!
@@ -27,7 +26,6 @@ public class FishGameState extends GameState {
         this.deck = createDeck();
         player0Hand = new ArrayList<>();
         player1Hand = new ArrayList<>();
-        computerAsk = 0;
         priority = new ArrayList<>();
         doNotAsk = new ArrayList<>();
         //dealCards(this.player0Hand);
@@ -103,11 +101,9 @@ public class FishGameState extends GameState {
     public ArrayList<FishCard> getPlayer0Hand() {
         return player0Hand;
     }
-
     public ArrayList<FishCard> getPlayer1Hand() {
         return player1Hand;
     }
-    public int getComputerAsk() { return computerAsk; }
     public ArrayList<Integer> getPriority() { return priority; }
     public ArrayList<Integer> getDoNotAsk() { return doNotAsk; }
     public int getPlayer0Score() {
@@ -128,7 +124,6 @@ public class FishGameState extends GameState {
     public void setPlayer1Hand(ArrayList<FishCard> player1Hand) {
         this.player1Hand = player1Hand;
     }
-    public int setComputerAsk(int computerAsk) { return this.computerAsk; }
     public void setPriority(ArrayList<Integer> priority) { this.priority = priority; }
     public void setDoNotAsk(ArrayList<Integer> doNotAsk) { this.doNotAsk = doNotAsk; }
     public void setPlayer0Score(int player0Score) {
@@ -171,33 +166,64 @@ public class FishGameState extends GameState {
             }
             numHowMany = 0;
         }
+        // In case check for four takes all cards
+        if (getCurrentPlayer() == 0) {
+            if (getPlayer0Hand().size() == 0) {
+                System.out.println("User drawing 5 cards");
+                drawFive(0);
+            }
+        } else {
+            if (getPlayer1Hand().size() == 0) {
+                System.out.println("Computer drawing 5 cards");
+                drawFive(1);
+            }
+        }
+    }
+
+    public void drawFive(int playerIdx) {
+        if (playerIdx == 0) {
+            for (int i = 0; i < 5; i++) {
+                if (getDeck().size() != 0) {
+                    Random q = new Random();
+                    int draw = q.nextInt(getDeck().size());
+                    getPlayer0Hand().add(getDeck().get(draw));
+                    getDeck().remove(draw);
+                    checkForFour();
+                }
+            }
+        } else {
+            for (int i = 0; i < 5; i++) {
+                if (getDeck().size() != 0) {
+                    Random q = new Random();
+                    int draw = q.nextInt(getDeck().size());
+                    getPlayer1Hand().add(getDeck().get(draw));
+                    getDeck().remove(draw);
+                    checkForFour();
+                }
+            }
+        }
     }
 
     public int getSmartVal() {
         int value;
-        System.out.println("new turn");
 
         if (getPlayer1Hand().size() == 0) {
-            return -1; // or some other default value
+            return -1;
         }
 
         if (getPriority() != null) {
             for (FishCard card : getPlayer1Hand()) {
                 if (getPriority().contains(card.getValue())) {
-                    System.out.println("HERE");
                     value = card.getValue();
                     Integer integerToRemove = value;
                     getPriority().remove(integerToRemove);
                     return value;
                 }
             }
-        } else {
-            System.out.println("null");
         }
         if (getDoNotAsk() != null) {
             for (FishCard card : getPlayer1Hand()) {
                 if (!(getDoNotAsk().contains(card.getValue()))) {
-                    System.out.println("HERE2");
                     value = card.getValue();
                     return value;
                 }
@@ -208,15 +234,7 @@ public class FishGameState extends GameState {
         for (FishCard card : getPlayer1Hand()) {
             intValues.add(card.getValue());
         }
-        System.out.println("HEREEE");
         return intValues.get(0);
     }
 
-//    public int getCurrAsk() {
-//        return currAsk;
-//    }
-//
-//    public void setCurrAsk(int currAsk) {
-//        this.currAsk = currAsk;
-//    }
 }

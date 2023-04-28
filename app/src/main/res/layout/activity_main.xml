@@ -1,90 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardAskInsert"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.example.fish.FishMainActivity">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="5sp"
+    android:background="#0a6c03">
 
+    <!-- The deck of cards in the middle -->
     <LinearLayout
-        android:id="@+id/top_gui_layout"
+        android:id="@+id/opponent_hand"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:weightSum="1">>
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/gameTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="TextView"
-            app:autoSizeTextType="uniform" />
+            android:id="@+id/opponent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/opponent_card1"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 1"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/opponent_card2"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 2"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
-                <TextView
-                    android:id="@+id/playerHand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:layout_weight="0"
-                    android:text="TextView" />
+        <ImageButton
+            android:id="@+id/opponent_card3"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 3"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/opponent_card4"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 4"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
-                    <EditText
-                        android:id="@+id/cardAskNum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:ems="10"
-                        android:inputType="number" />
+        <ImageButton
+            android:id="@+id/opponent_card5"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 5"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
-                    <Button
-                        android:id="@+id/askForCard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Ask" />
+        <ImageButton
+            android:id="@+id/opponent_card6"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 6"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/opponentHand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-            </LinearLayout>
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/opponent_card7"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Opponent Card 7"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- The player's hand at the bottom -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="70"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/deck"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center|center_horizontal"
+            android:contentDescription="deck"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player_hand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="33"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Name" />
+
+        <ImageButton
+            android:id="@+id/player_card1"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 1"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+        <ImageButton
+            android:id="@+id/player_card2"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 2"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+        <ImageButton
+            android:id="@+id/player_card3"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 3"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+        <ImageButton
+            android:id="@+id/player_card4"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 4"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+        <ImageButton
+            android:id="@+id/player_card5"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 5"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+        <ImageButton
+            android:id="@+id/player_card6"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 6"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+        <ImageButton
+            android:id="@+id/player_card7"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:contentDescription="Player Card 7"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/card_back" />
+
+    </LinearLayout>
+
+    <!-- The opponent's hand at the top -->
+</LinearLayout>
+
