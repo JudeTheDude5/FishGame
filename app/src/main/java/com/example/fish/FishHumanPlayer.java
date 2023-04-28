@@ -106,7 +106,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             }
             System.out.println(playerHandText);
             System.out.println(opponentHandText);
-            opponentHand.setText(opponentHandText);
+//            opponentHand.setText(opponentHandText);
             ///////////////////////////////////////////
 
             // updates card images for both player and opponent hand
