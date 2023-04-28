@@ -63,11 +63,9 @@ public class FishLocalGame extends LocalGame {
 
                     //updates the priority and doNotAsk arrays with each ask
                     if (!(gameState3.getPriority().contains(((FishAskAction) action).askNum))) {
-                        System.out.println("here2");
                         gameState3.getPriority().add(((FishAskAction) action).askNum);
                     }
                     if (gameState3.getDoNotAsk().contains(((FishAskAction) action).askNum)) {
-                        System.out.println("here3");
                         Integer integerToRemove = ((FishAskAction) action).askNum;
                         gameState3.getDoNotAsk().remove(integerToRemove);
                     }
@@ -83,20 +81,15 @@ public class FishLocalGame extends LocalGame {
                             //gameState.getCurrAsk()
                             //I don't know whether these will work
                             gameState3.checkForFour();
-
                         }
                     }
+                    if (gameState3.getPlayer1Hand().size() == 0) {
+                        System.out.println("Computer drawing 5 cards");
+                        gameState3.drawFive(1);
+                        gameState3.setCurrentPlayer(1);
+                    }
 
-                    System.out.print("Priority array: ");
-                    for (Integer val : gameState3.getPriority()) {
-                        System.out.print(val + " ");
-                    }
-                    System.out.println(" ");
-                    System.out.print("doNotAsk array: ");
-                    for (Integer val : gameState3.getDoNotAsk()) {
-                        System.out.print(val + " ");
-                    }
-                    System.out.println(" ");
+                    System.out.println("User asked for a " + ((FishAskAction) action).askNum);
 
                     if(hasCard == true) {
                         //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
@@ -117,10 +110,8 @@ public class FishLocalGame extends LocalGame {
             else {
                     boolean hasCard = false;
 
-                System.out.println(((FishAskAction) action).askNum);
                     //updates the priority and doNotAsk arrays with each ask
                     if (!(gameState3.getDoNotAsk().contains(((FishAskAction) action).askNum))) {
-                        System.out.println("here5");
                         gameState3.getDoNotAsk().add(((FishAskAction) action).askNum);
                     }
 
@@ -135,20 +126,15 @@ public class FishLocalGame extends LocalGame {
                             //gameState.getCurrAsk()
                             //I don't know whether these will work
                             gameState3.checkForFour();
-
                         }
                     }
+                    if (gameState3.getPlayer0Hand().size() == 0) {
+                        System.out.println("User drawing 5 cards");
+                        gameState3.drawFive(0);
+                        gameState3.setCurrentPlayer(0);
+                    }
 
-                    System.out.print("Priority array: ");
-                    for (Integer val : gameState3.getPriority()) {
-                        System.out.print(val + " ");
-                    }
-                    System.out.println(" ");
-                    System.out.print("doNotAsk array: ");
-                    for (Integer val : gameState3.getDoNotAsk()) {
-                        System.out.print(val + " ");
-                    }
-                    System.out.println(" ");
+                    System.out.println("Computer asked for a " + ((FishAskAction) action).askNum);
                     
                     if(hasCard == true) {
                         //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
