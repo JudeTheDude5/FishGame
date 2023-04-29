@@ -65,6 +65,4 @@ public class FishDumbAI extends GameComputerPlayer {
 
         }
     }
-
-
 }
