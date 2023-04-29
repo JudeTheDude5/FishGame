@@ -143,10 +143,11 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             }
 
             //show what card was asked
+            String card = ((FishGameState) info).numberToString(((FishGameState) info).getCurrAsk());
             if (((FishGameState) info).getCurrAsk() == 0) {
                 this.lastAsk.setText("No Card Has Been Asked Yet");
             } else {
-                this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
+                this.lastAsk.setText("Most recent ask: " + card);
             }
 
             // check if the deck decreased by one and show "go fish" if it does

@@ -4,9 +4,8 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="5sp"
-    android:background="@drawable/fish_background">
+    android:background="@drawable/fish_background"
+    android:orientation="vertical">
 
     <!-- The deck of cards in the middle -->
     <LinearLayout
@@ -14,7 +13,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_weight="8"
-        android:background="#41000000"
+        android:background="#CC00072C"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -34,7 +33,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="MY SCORE:"
                 android:textAlignment="center"
-                android:textColor="#2C0377"
+                android:textColor="#FFC107"
                 android:textSize="24sp" />
 
             <TextView
@@ -45,7 +44,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#2A0073"
+                android:textColor="#FFC107"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -76,7 +75,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="OPPONENT SCORE:"
                 android:textAlignment="center"
-                android:textColor="#2D0178"
+                android:textColor="#FFC107"
                 android:textSize="22sp" />
 
             <TextView
@@ -87,7 +86,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#250065"
+                android:textColor="#FFC107"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -194,6 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
             android:text="Card Asked:"
             android:textColor="#FFC107"
