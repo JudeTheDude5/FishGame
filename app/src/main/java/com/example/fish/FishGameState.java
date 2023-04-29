@@ -15,17 +15,14 @@ import java.util.Random;
 public class FishGameState extends GameState {
     // Instances
     public int currentPlayer;
-
     public ArrayList<FishCard> deck;
-    public ArrayList<FishCard> player0Hand; //Map of the player ID to their hand of cards
+    public ArrayList<FishCard> player0Hand;
     public ArrayList<FishCard> player1Hand;
     public ArrayList<Integer> priority;
     public ArrayList<Integer> doNotAsk;
-    //private Map<Integer, Integer> playerScores; // ..scores?!
     private int player0Score;
     private int player1Score;
     public ArrayList<FishCard> recentAsk;
-
     private int currAsk;
 
     /**

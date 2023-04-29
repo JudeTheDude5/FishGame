@@ -34,6 +34,7 @@ public class FishDumbAI extends GameComputerPlayer {
         // Variables
         FishGameState recieve = new FishGameState((FishGameState)info);
         int num;
+        //Dumb AI Will randomly choose a card from it's desk to ask for
 
         // Initializes the characteristics of the DumbAI
         if (recieve.getPlayer0Hand().size() == 0) {
