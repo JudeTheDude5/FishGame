@@ -149,7 +149,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                 this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
             }
 
-            // check if the deck decreased by one and show "go fish" if it did
+            // check if the deck decreased by one and show "go fish" if it does
             int currentDeckSize = ((FishGameState) info).getDeck().size();
             if (currentDeckSize < previousDeckSize) {
                 final Toast toast = Toast.makeText(myActivity, "Go Fish!", Toast.LENGTH_SHORT);
