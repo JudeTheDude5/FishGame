@@ -34,7 +34,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
     private TextView oppScore = null;
     private TextView myScore = null;
 
-
+    private int previousDeckSize;
     private GameMainActivity myActivity;
     private TextView lastAsk = null;
 
@@ -143,15 +143,15 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             }
 
             //show what card was asked
-            if(((FishGameState) info).getCurrAsk() == 0) {
+            if (((FishGameState) info).getCurrAsk() == 0) {
                 this.lastAsk.setText("No Card Has Been Asked Yet");
-            }
-            else {
+            } else {
                 this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
             }
 
-            // check if the deck decreased and show "go fish" if it did
-            if (((FishGameState) info).getDeck().size() - 1 < ((FishGameState) info).getDeck().size()) {
+            // check if the deck decreased by one and show "go fish" if it did
+            int currentDeckSize = ((FishGameState) info).getDeck().size();
+            if (currentDeckSize < previousDeckSize) {
                 final Toast toast = Toast.makeText(myActivity, "Go Fish!", Toast.LENGTH_SHORT);
                 toast.show();
                 new Handler().postDelayed(new Runnable() {
@@ -161,6 +161,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                     }
                 }, 1000); // Delay for 1 second (1000 milliseconds)
             }
+            previousDeckSize = currentDeckSize;
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
@@ -317,18 +318,6 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         LinearLayout layout = (LinearLayout) myActivity.findViewById(R.id.layout);
         layout.setBackgroundResource(resourceId);
     }
-
-        //Use arrows to show who's turn it is.
-//    public void setArrows(){
-//        ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
-//        ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
-//
-//        if (((FishGameState) info).getCurrentPlayer() == 0) {
-//            arrow1.setImageResource(R.drawable.arrow_blue);
-//        } else {
-//            arrow2.setImageResource(R.drawable.arrow_purple);
-//        }
-//    }
 
     // num to string for before stacking
     public String numToString(ArrayList<FishCard> hand, int i) {

@@ -34,8 +34,8 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="MY SCORE:"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:textColor="#2C0377"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/player0score"
@@ -45,8 +45,8 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:textColor="#2A0073"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -76,8 +76,8 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="OPPONENT SCORE:"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:textColor="#2D0178"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/player1score"
@@ -87,8 +87,8 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:textColor="#250065"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -210,7 +210,7 @@
         <ImageView
             android:id="@+id/arrow_purple"
             android:layout_width="100dp"
-            android:layout_height="125dp"
+            android:layout_height="100dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/arrow_purple" />
 
