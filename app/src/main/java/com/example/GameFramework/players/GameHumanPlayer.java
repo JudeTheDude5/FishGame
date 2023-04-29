@@ -162,6 +162,9 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         myHandler.postDelayed(new Unflasher(savedColor), duration);
     }
 
+    protected void onDestroy() {
+    }
+
     /**
      * helper-class to finish a "flash.
      *

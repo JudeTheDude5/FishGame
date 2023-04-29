@@ -3,6 +3,7 @@ package com.example.fish;
 import static android.graphics.Color.RED;
 
 import android.app.AlertDialog;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class FishHumanPlayer extends GameHumanPlayer {
     private TextView myScore = null;
     private TextView lastAsk = null;
     private int previousDeckSize;
+    private MediaPlayer mediaPlayer;
 
     /**
      * Constructor for FishHumanPlayer
@@ -138,6 +140,11 @@ public class FishHumanPlayer extends GameHumanPlayer {
             // Set the background image
             setBackground(R.drawable.fish_background);
 
+            // Initialize the MediaPlayer object with the sound file
+            mediaPlayer = MediaPlayer.create(myActivity, R.raw.sound);
+            // Start playing the background sound
+            mediaPlayer.start();
+
             // Shows the state of the current player
             ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
             ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
@@ -187,6 +194,16 @@ public class FishHumanPlayer extends GameHumanPlayer {
                     }
                 });
             }
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // Release the MediaPlayer object
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 

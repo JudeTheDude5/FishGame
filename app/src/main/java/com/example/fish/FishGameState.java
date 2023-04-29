@@ -39,10 +39,8 @@ public class FishGameState extends GameState {
         player1Hand = new ArrayList<>();
         priority = new ArrayList<>();
         doNotAsk = new ArrayList<>();
-        //dealCards(this.player0Hand);
         this.player0Hand = dealCards();
         this.player1Hand = dealCards();
-        //dealCards(this.player1Hand);
         player0Score = 0;
         player1Score = 0;
         currAsk = 0;
