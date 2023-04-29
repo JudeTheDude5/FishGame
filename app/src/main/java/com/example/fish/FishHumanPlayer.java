@@ -33,7 +33,6 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
 
     private GameMainActivity myActivity;
-    private FishGameState fishState;
     private TextView lastAsk = null;
 
 
@@ -125,7 +124,22 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             setDeck();
             // set the background image
             setBackground(R.drawable.fish_background);
-            //show what AI ask for
+
+            //show who's turn it is.
+            ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
+            ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
+
+            if (((FishGameState) info).getCurrentPlayer() == 0) {
+                arrow1.setImageResource(R.drawable.arrow_blue);
+                arrow1.setVisibility(View.VISIBLE);// make sure the view is visible if the current player is 0
+                arrow2.setVisibility(View.INVISIBLE); // or View.GONE to remove the view from the layout entirely
+            } else {
+                arrow2.setImageResource(R.drawable.arrow_purple);
+                arrow2.setVisibility(View.VISIBLE);// make sure the view is visible if the current player is not 0
+                arrow1.setVisibility(View.INVISIBLE); // or View.GONE to remove the view from the layout entirely
+            }
+
+            //show what card was asked
             if(((FishGameState) info).getCurrAsk() == 0) {
                 this.lastAsk.setText("No Card Has Been Asked Yet");
             }
@@ -289,6 +303,18 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         LinearLayout layout = (LinearLayout) myActivity.findViewById(R.id.layout);
         layout.setBackgroundResource(resourceId);
     }
+
+    //Use arrows to show who's turn it is.
+//    public void setArrows(){
+//        ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
+//        ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
+//
+//        if (((FishGameState) info).getCurrentPlayer() == 0) {
+//            arrow1.setImageResource(R.drawable.arrow_blue);
+//        } else {
+//            arrow2.setImageResource(R.drawable.arrow_purple);
+//        }
+//    }
 
     // num to string for before stacking
     public String numToString(ArrayList<FishCard> hand, int i) {
