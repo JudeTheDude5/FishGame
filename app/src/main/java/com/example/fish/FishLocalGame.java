@@ -95,6 +95,7 @@ public class FishLocalGame extends LocalGame {
 
                     System.out.println("User asked for a " + ((FishAskAction) action).askNum);
 
+
                     if(hasCard == true) {
                         //for(int i = 0; i < gameState.getPlayer1Hand().size(); ++i) {
                         //}

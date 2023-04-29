@@ -19,7 +19,7 @@ public class FishSmartAI extends GameComputerPlayer {
         int num = recieve.getSmartVal();
 
         try {
-            Thread.sleep(1500); // 3 seconds total so the turn isn't too quick
+            Thread.sleep(2000); // 3 seconds total so the turn isn't too quick
             if(recieve.getCurrentPlayer() != this.playerNum) {
                 return;
             }
@@ -27,7 +27,7 @@ public class FishSmartAI extends GameComputerPlayer {
                 FishAskAction play = new FishAskAction(this, num);
                 game.sendAction(play);
             }
-            Thread.sleep(1500);
+            Thread.sleep(1000);
 
         }
         catch (Exception e) {

@@ -251,5 +251,50 @@ public class FishGameState extends GameState {
         }
         return false;
     }
+    public String numberToString(int i) {
+        String stringNum = "";
+        switch (i) {
+            case 1:
+                stringNum = "Ace";
+                break;
+            case 2:
+                stringNum = "2";
+                break;
+            case 3:
+                stringNum = "3";
+                break;
+            case 4:
+                stringNum = "4";
+                break;
+            case 5:
+                stringNum = "5";
+                break;
+            case 6:
+                stringNum = "6";
+                break;
+            case 7:
+                stringNum = "7";
+                break;
+            case 8:
+                stringNum = "8";
+                break;
+            case 9:
+                stringNum = "9";
+                break;
+            case 10:
+                stringNum = "10";
+                break;
+            case 11:
+                stringNum = "Jack";
+                break;
+            case 12:
+                stringNum = "Queen";
+                break;
+            case 13:
+                stringNum = "King";
+                break;
+        }
+        return stringNum;
+    }
 
 }
