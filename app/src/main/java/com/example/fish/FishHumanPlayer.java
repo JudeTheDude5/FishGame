@@ -2,12 +2,15 @@ package com.example.fish;
 
 import static android.graphics.Color.RED;
 
+import android.app.AlertDialog;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.GameFramework.GameMainActivity;
 import com.example.GameFramework.infoMessage.GameInfo;
@@ -31,9 +34,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
     private TextView oppScore = null;
     private TextView myScore = null;
 
-
+    private int previousDeckSize;
     private GameMainActivity myActivity;
-    private FishGameState fishState;
     private TextView lastAsk = null;
 
 
@@ -125,14 +127,41 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             setDeck();
             // set the background image
             setBackground(R.drawable.fish_background);
-            //show what AI ask for
-            if(((FishGameState) info).getCurrAsk() == 0) {
-                this.lastAsk.setText("No Card Has Been Asked Yet");
+
+            //show who's turn it is.
+            ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
+            ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
+
+            if (((FishGameState) info).getCurrentPlayer() == 0) {
+                arrow1.setImageResource(R.drawable.arrow_blue);
+                arrow1.setVisibility(View.VISIBLE);// make sure the view is visible if the current player is 0
+                arrow2.setVisibility(View.INVISIBLE); // or View.GONE to remove the view from the layout entirely
+            } else {
+                arrow2.setImageResource(R.drawable.arrow_purple);
+                arrow2.setVisibility(View.VISIBLE);// make sure the view is visible if the current player is not 0
+                arrow1.setVisibility(View.INVISIBLE); // or View.GONE to remove the view from the layout entirely
             }
-            else {
+
+            //show what card was asked
+            if (((FishGameState) info).getCurrAsk() == 0) {
+                this.lastAsk.setText("No Card Has Been Asked Yet");
+            } else {
                 this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
             }
 
+            // check if the deck decreased by one and show "go fish" if it does
+            int currentDeckSize = ((FishGameState) info).getDeck().size();
+            if (currentDeckSize < previousDeckSize) {
+                final Toast toast = Toast.makeText(myActivity, "Go Fish!", Toast.LENGTH_SHORT);
+                toast.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 1000); // Delay for 1 second (1000 milliseconds)
+            }
+            previousDeckSize = currentDeckSize;
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
