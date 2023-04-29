@@ -44,10 +44,10 @@ public class FishLocalGame extends LocalGame {
 
         if((gameState2.getPlayer0Score() + gameState2.getPlayer1Score() >= 13)) {
             if(gameState2.getPlayer0Score() > gameState2.getPlayer1Score()) {
-                Win = "Player 0 won with " + gameState2.getPlayer0Score() + " Sets";
+                Win = "Player 0 won with " + gameState2.getPlayer0Score() + " Sets ";
             }
             else {
-                Win = "Player 1 won with " + gameState2.getPlayer1Score() + " Sets";
+                Win = "Player 1 won with " + gameState2.getPlayer1Score() + " Sets ";
             }
         }
 

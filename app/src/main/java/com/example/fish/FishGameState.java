@@ -18,7 +18,8 @@ public class FishGameState extends GameState {
     private int player0Score;
     private int player1Score;
 
-    //private int currAsk;
+
+    private int currAsk;
 
     FishGameState() {
         currentPlayer = 0;

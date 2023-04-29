@@ -11,6 +11,7 @@ public class FishAskAction extends GameAction {
      */
 
     public int askNum;
+    //Ask actions wants certain number so it knows what to ask for
     public FishAskAction(GamePlayer player, int g) {
 
         super(player);

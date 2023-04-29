@@ -17,6 +17,7 @@ public class FishSmartAI extends GameComputerPlayer {
         FishGameState recieve = new FishGameState((FishGameState)info);
 
         int num = recieve.getSmartVal();
+        //Uses number formula in FishGamestate to make smarter ask choices
 
         try {
             Thread.sleep(1500); // 3 seconds total so the turn isn't too quick
