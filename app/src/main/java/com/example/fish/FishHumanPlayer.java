@@ -5,6 +5,7 @@ import static android.graphics.Color.RED;
 import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,25 +23,30 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
-
-
+/**
+ * Class FishHumanPlayer extends GameHumanPlayer and implements
+ * View.OnClickListener to create an instance of a player that can be
+ * used by the user
+ *
+ * @author Jude Reynolds, Alexis Nguyen, Isaela Timogene-Julien, Heidi Pham
+ * @version April 28, 2023
+ */
+public class FishHumanPlayer extends GameHumanPlayer {
+    // Instances
+    private GameMainActivity myActivity;
     private LinearLayout playerLayout = null;
     private LinearLayout opponentLayout = null;
     private ImageButton deck = null;
-    private TextView opponentHand = null;
     private ArrayList<ImageButton> images;
     private ArrayList<ImageButton> opponentImages;
+    private TextView opponentHand = null;
     private TextView oppScore = null;
     private TextView myScore = null;
-
-    private int previousDeckSize;
-    private GameMainActivity myActivity;
     private TextView lastAsk = null;
-
+    private int previousDeckSize;
 
     /**
-     * constructor
+     * Constructor for FishHumanPlayer
      *
      * @param name the name of the player
      */
@@ -48,108 +54,114 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         super(name);
     }
 
-    @Override
-    public void onClick(View view) {
-//        int ask = 0;
-//        for(int i = 1; i < 14; i++) {
-//            if (askNum.getText().toString().equals(i + "")) {
-//                ask = i;
-//            }
-//        }
-//
-//        if((ask <= 13) && (ask >= 1)) {
-//            FishAskAction askAction = new FishAskAction(this,ask);
-//            game.sendAction(askAction);
-//        }
-//        else {
-//            title.setText("You have to pick a card that's from 1-13");
-//            return;
-//        }
-    }
-
+    /**
+     * View layout of the game
+     *
+     * @return The layout of the game
+     */
     @Override
     public View getTopView() {
         return myActivity.findViewById(R.id.layout);
     }
-    //Need to set up view for GUI
 
+    /**
+     * Initializes the characteristics of a FishHumanPlayer
+     *
+     * @param info Takes in the GameInfo
+     */
     @Override
     public void receiveInfo(GameInfo info) {
+        // If the player asks for a card when it is not their turn
         if (!(info instanceof FishGameState)) {
             flash(RED, 2);
             return;
         }
         else {
-            // ArrayLists of player and opponent hand
+            // Initialize ArrayLists of player and opponent hand
             ArrayList<FishCard> playerArrHand = ((FishGameState) info).getPlayer0Hand();
             ArrayList<FishCard> opponentArrHand = ((FishGameState) info).getPlayer1Hand();
 
+            // Sort the player hand into ascending order
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 playerArrHand.sort(new Comparator<FishCard>() {
+                    /**
+                     * Compare the values of the player deck and organize them
+                     *
+                     * @param fishCard1 The first FishCard to compare
+                     * @param fishCard2 The second FishCard to compare
+                     */
                     @Override
                     public int compare(FishCard fishCard1, FishCard fishCard2) {
                         return Integer.compare(fishCard1.getValue(), fishCard2.getValue());
                     }
                 });
             }
-            // TESTING/////////////////////////////
+
+            // Prints the hands in the logcat for comparison
             String playerHandText = "";
             String opponentHandText = "";
             String playerScoreText = "";
             String opponentScoreText = "";
 
+            // Assign each value of the player hand to a String
             for (int i = 0; i < playerArrHand.size(); ++i) {
                 playerHandText = playerHandText + (playerArrHand.get(i).getValue() + ", ");
             }
+
+            // Assign each value of the opponent hand to a String
             for (int j = 0; j < ((FishGameState) info).getPlayer1Hand().size(); ++j) {
                 opponentHandText = opponentHandText + (((FishGameState) info).getPlayer1Hand().get(j).getValue() + ", ");
             }
+
+            // Sets the scores of each hand to a String
             playerScoreText = String.valueOf(((FishGameState) info).getPlayer0Score());
             opponentScoreText = String.valueOf(((FishGameState) info).getPlayer1Score());
 
-            System.out.println(playerHandText);
-            System.out.println(opponentHandText);
-//            opponentHand.setText(opponentHandText);
-            ///////////////////////////////////////////
+            // Logcats the hands for reference
+            Log.d("Player Hand", playerHandText);
+            Log.d("Opponent Hand", opponentHandText);
 
-            // updates the score
+            // Updates the score
             myScore.setText(playerScoreText);
             oppScore.setText(opponentScoreText);
 
-            // updates the deck to be invisible once cards are gone
+            // Updates the deck to be invisible once cards are gone
             if (((FishGameState) info).getDeck().isEmpty()) {
                 deck.setVisibility(View.INVISIBLE);
             }
 
-            // updates card images for both player and opponent hand
+            // Update and set card images for player hand, opponent hand, and deck
             setPlayerCardImages(playerArrHand, images);
             setOpponentCardImages(opponentArrHand, opponentImages);
             setDeck();
-            // set the background image
+
+            // Set the background image
             setBackground(R.drawable.fish_background);
 
-            //show who's turn it is.
+            // Shows the state of the current player
             ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
             ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
 
+            // If it is player 0, the arrow points at them
             if (((FishGameState) info).getCurrentPlayer() == 0) {
                 arrow1.setImageResource(R.drawable.arrow_blue);
                 arrow1.setVisibility(View.VISIBLE);// make sure the view is visible if the current player is 0
                 arrow2.setVisibility(View.INVISIBLE); // or View.GONE to remove the view from the layout entirely
-            } else {
+            }
+            else { // If it is player 1, the arrow points at them
                 arrow2.setImageResource(R.drawable.arrow_purple);
                 arrow2.setVisibility(View.VISIBLE);// make sure the view is visible if the current player is not 0
                 arrow1.setVisibility(View.INVISIBLE); // or View.GONE to remove the view from the layout entirely
             }
 
-            //show what card was asked
+            // Show what card was asked on the screen
             if (((FishGameState) info).getCurrAsk() == 0) {
                 this.lastAsk.setText("No Card Has Been Asked Yet");
             } else {
                 this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
             }
 
-            // check if the deck decreased by one and show "go fish" if it does
+            // Check if the deck decreased by one and show "go fish" if it does
             int currentDeckSize = ((FishGameState) info).getDeck().size();
             if (currentDeckSize < previousDeckSize) {
                 final Toast toast = Toast.makeText(myActivity, "Go Fish!", Toast.LENGTH_SHORT);
@@ -163,7 +175,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             }
             previousDeckSize = currentDeckSize;
 
-            // set on click listeners for each player card
+            // Set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
                 final int index = i; // store the current index
                 images.get(i).setOnClickListener(new View.OnClickListener() {
@@ -178,17 +190,22 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         }
     }
 
+    /**
+     * Initializes the Graphic User Interface of the game
+     *
+     * @param activity the activity of the game
+     */
     @Override
     public void setAsGui(GameMainActivity activity) {
-        // activity instance
+        // Activity instance
         myActivity = activity;
         activity.setContentView(R.layout.activity_main);
 
-        // instantiate layouts where the cards are
+        // Instantiate layouts where the cards are
         this.playerLayout = (LinearLayout) activity.findViewById(R.id.player_hand);
         this.opponentLayout = (LinearLayout) activity.findViewById(R.id.opponent_hand);
 
-        // initialize image array to cards on the GUI
+        // Initialize image array to cards on the GUI
         this.images = new ArrayList<>();
         this.images.add((ImageButton) activity.findViewById(R.id.player_card1));
         this.images.add((ImageButton) activity.findViewById(R.id.player_card2));
@@ -198,7 +215,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         this.images.add((ImageButton) activity.findViewById(R.id.player_card6));
         this.images.add((ImageButton) activity.findViewById(R.id.player_card7));
 
-        // initialize opponent images to the cards on the GUI
+        // Initialize opponent images to the cards on the GUI
         this.opponentImages = new ArrayList<>();
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card1));
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card2));
@@ -208,52 +225,54 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card6));
         this.opponentImages.add((ImageButton) activity.findViewById(R.id.opponent_card7));
 
-        // initialize deck to deck on GUI
+        // Initialize deck to deck on GUI
         this.deck = (ImageButton) activity.findViewById(R.id.deck);
 
-        // initialize scores
+        // Initialize scores
         this.myScore = (TextView) activity.findViewById(R.id.player0score);
         this.oppScore = (TextView) activity.findViewById(R.id.player1score);
 
-        //set the background image
-        //LinearLayout layout = (LinearLayout) activity.findViewById(R.id.layout);
-        //layout.setBackgroundResource(R.drawable.fish_background);
-
-        // set the background image
+        // Set the background image
         setBackground(R.drawable.fish_background);
 
-        //show what AI ask for
+        // Show what AI ask for
         this.lastAsk = (TextView) activity.findViewById(R.id.lastAsk);
     }
 
-    // helper method to set the card images on game start
+    /**
+     * Sets and updates the card images for the player hand
+     *
+     * @param hand An ArrayList of FishCards representing the player hand
+     * @param images An Arraylist of the ImageButtons for the card images
+     */
     public void setPlayerCardImages(ArrayList<FishCard> hand, ArrayList<ImageButton> images) {
-        // variables
+        // Variables
         int numCards = hand.size();
 
-        // resets view for redraw
+        // Resets view for redraw
         playerLayout.removeAllViews();
         images.clear();
 
+        // Creates a HashMap to count how many cards in the hand have the same value
         Map<Integer, Integer> cardCounts = new HashMap<>();
 
-        // loops through the player hand and assigns the correct card image
+        // Loops through the player hand and assigns the correct card image
         for (int i = 0; i < numCards; i++) {
-            // variables
+            // Variables
             int value = hand.get(i).getValue();
 
-            // makes a new image button
+            // Makes a new image button
             ImageButton imageButton = new ImageButton(myActivity);
             imageButton.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
-            String fileName = numToString(hand, i); // finds file name for card value
+            String fileName = numToString(hand, i); // Finds file name for card value
 
-            // sets the ImageViews on each card to the corresponding filename
+            // Sets the ImageViews on each card to the corresponding filename
             int imageResource = myActivity.getResources().getIdentifier(fileName,
                     "drawable", myActivity.getPackageName());
             imageButton.setImageResource(imageResource);
 
-            // if card is already in hand, stack the card
+            // If card is already in hand, stack the card
             if (cardCounts.containsKey(value)) {
                 cardCounts.put(value, cardCounts.get(value) + 1);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageButton.getLayoutParams();
@@ -262,10 +281,8 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                 images.add(imageButton);
                 playerLayout.addView(imageButton);
             }
-
-            // if it isn't in the hand already
-            else {
-                // adds the image button normally
+            else { // If it isn't in the hand already
+                // Adds the image button normally
                 images.add(imageButton);
                 playerLayout.addView(imageButton); // add the ImageButton to the playerLayout
                 cardCounts.put(value, 1);
@@ -273,56 +290,81 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         }
     }
 
+    /**
+     * Sets and updates the card images for the opponent hand
+     *
+     * @param hand An ArrayList of FishCards representing the opponent hand
+     * @param images An Arraylist of the ImageButtons for the card images
+     */
     public void setOpponentCardImages(ArrayList<FishCard> hand, ArrayList<ImageButton> images) {
-        // variables
+        // Variables
         int numCards = hand.size();
 
-        // clear opponent layout
+        // Clear opponent layout
         opponentLayout.removeAllViews();
         opponentImages.clear();
 
+        // Creates an ImageButton for each oppoenet card
         for (int i = 0; i < numCards; i++) {
-            // FishCard card = hand.get(i);
             ImageButton imageButton = new ImageButton(myActivity);
             imageButton.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
 
-            // sets the ImageViews on each card to the corresponding filename
+            // Sets the ImageViews on each card to the corresponding filename
             int imageResource = myActivity.getResources().getIdentifier("card_back",
                     "drawable", myActivity.getPackageName());
             imageButton.setImageResource(imageResource);
 
-            // overlap opponent cards
+            // Overlap opponent cards
             if (i > 0) {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageButton.getLayoutParams();
                 params.setMargins(-80, 0, 0, 0);
                 imageButton.setLayoutParams(params);
             }
+
+            // Add the ImageButtons to the layout
             images.add(imageButton);
             opponentLayout.addView(imageButton);
         }
     }
 
-    // sets deck image
-    public void setDeck () {
+    /**
+     * Sets the image of the deck in the middle
+     */
+    public void setDeck() {
+        // Set the size for the middle deck
         deck.setLayoutParams(new LinearLayout.LayoutParams(130, 190));
         deck.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        // sets the ImageViews on each card to the corresponding filename
+        // Sets the ImageViews on each card to the corresponding filename
         int imageResource = myActivity.getResources().getIdentifier("card_back",
                 "drawable", myActivity.getPackageName());
         deck.setImageResource(imageResource);
     }
 
+    /**
+     * Sets the background image
+     *
+     * @param resourceId The id of the background as an int
+     */
     public void setBackground(int resourceId) {
+        // Finds the layout of the background and sets it to an image
         LinearLayout layout = (LinearLayout) myActivity.findViewById(R.id.layout);
         layout.setBackgroundResource(resourceId);
     }
 
-    // num to string for before stacking
+    /**
+     * Finds the rank and value of a card and sets the correct image file
+     * to the card
+     *
+     * @param hand An ArrayList of FishCards representing the player hand
+     * @param i The index of the ArrayList hand
+     */
     public String numToString(ArrayList<FishCard> hand, int i) {
         FishCard card = hand.get(i);
         String stringNum = "";
+
+        // Switch statement to assign the correct file name to the corresponding card
         switch (card.getValue()) {
             case 1:
                 stringNum = "ace";
