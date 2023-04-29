@@ -82,7 +82,7 @@ public class FishGameState extends GameState {
         return tempDeck;
     }
 
-    private ArrayList<FishCard> dealCards() {
+    public ArrayList<FishCard> dealCards() {
         ArrayList<FishCard> tempDeck = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             Random random = new Random();

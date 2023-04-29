@@ -2,12 +2,15 @@ package com.example.fish;
 
 import static android.graphics.Color.RED;
 
+import android.app.AlertDialog;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.GameFramework.GameMainActivity;
 import com.example.GameFramework.infoMessage.GameInfo;
@@ -147,6 +150,17 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
                 this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
             }
 
+            // check if the deck decreased and show "go fish" if it did
+            if (((FishGameState) info).getDeck().size() - 1 < ((FishGameState) info).getDeck().size()) {
+                final Toast toast = Toast.makeText(myActivity, "Go Fish!", Toast.LENGTH_SHORT);
+                toast.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 1000); // Delay for 1 second (1000 milliseconds)
+            }
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
@@ -304,7 +318,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         layout.setBackgroundResource(resourceId);
     }
 
-    //Use arrows to show who's turn it is.
+        //Use arrows to show who's turn it is.
 //    public void setArrows(){
 //        ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
 //        ImageView arrow2 = myActivity.findViewById(R.id.arrow_purple);
