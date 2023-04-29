@@ -17,7 +17,7 @@ public class FishGameState extends GameState {
     //private Map<Integer, Integer> playerScores; // ..scores?!
     private int player0Score;
     private int player1Score;
-
+    public ArrayList<FishCard> recentAsk;
 
     private int currAsk;
 
@@ -35,7 +35,8 @@ public class FishGameState extends GameState {
         //dealCards(this.player1Hand);
         player0Score = 0;
         player1Score = 0;
-        //currAsk = 0;
+        currAsk = 0;
+
     }
 
     public FishGameState(FishGameState deep) {
@@ -63,7 +64,7 @@ public class FishGameState extends GameState {
         for(int i = 0; i < deep.player1Hand.size(); i++) {
             this.player1Hand.add(new FishCard(deep.player1Hand.get(i)));
         }
-        //this.currAsk = deep.getCurrAsk();
+        this.currAsk = deep.currAsk;
     }
 
     private ArrayList<FishCard> createDeck() {
@@ -113,8 +114,15 @@ public class FishGameState extends GameState {
     public int getPlayer1Score() {
         return player1Score;
     }
+    public int getCurrAsk() {
+        return currAsk;
+    }
     public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public void setCurrAsk(int currAsk) {
+        this.currAsk = currAsk;
     }
     public void setDeck(ArrayList<FishCard> deck) {
         this.deck = deck;
@@ -236,6 +244,12 @@ public class FishGameState extends GameState {
             intValues.add(card.getValue());
         }
         return intValues.get(0);
+    }
+    public boolean isGameOver() {
+        if(player0Hand.isEmpty() || player1Hand.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
 }

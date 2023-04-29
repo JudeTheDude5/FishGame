@@ -1,7 +1,9 @@
 package com.example.fish;
 
+import android.content.Intent;
 import android.widget.EditText;
 
+import com.example.GameFramework.GameMainActivity;
 import com.example.GameFramework.LocalGame;
 import com.example.GameFramework.actionMessage.GameAction;
 import com.example.GameFramework.players.GamePlayer;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FishLocalGame extends LocalGame {
+    private GameMainActivity myActivity;
 
     //private FishGameState gameState;
 
@@ -70,6 +73,7 @@ public class FishLocalGame extends LocalGame {
                         gameState3.getDoNotAsk().remove(integerToRemove);
                     }
 
+                    gameState3.setCurrAsk(((FishAskAction) action).askNum);
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = gameState3.getPlayer1Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer1Hand().get(i).getValue()) {
@@ -115,6 +119,8 @@ public class FishLocalGame extends LocalGame {
                         gameState3.getDoNotAsk().add(((FishAskAction) action).askNum);
                     }
 
+
+                    gameState3.setCurrAsk(((FishAskAction) action).askNum);
                     //ArrayList<FishCard> cardsToRemove = new ArrayList<>();
                     for(int i = gameState3.getPlayer0Hand().size()-1; i >= 0; --i) {
                         if((((FishAskAction) action).askNum) == gameState3.getPlayer0Hand().get(i).getValue()) {

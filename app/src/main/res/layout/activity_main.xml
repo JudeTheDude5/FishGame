@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0a6c03"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="5sp"
+    android:background="@drawable/fish_background">
 
     <!-- The deck of cards in the middle -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_weight="8"
         android:background="#41000000"
@@ -32,6 +34,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="MY SCORE:"
                 android:textAlignment="center"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <TextView
@@ -42,6 +45,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="0"
                 android:textAlignment="center"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -49,13 +53,13 @@
         <TextView
             android:id="@+id/GoFishTitle"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/modak"
             android:text="GO FISH!"
             android:textAlignment="center"
             android:textColor="#FFC107"
-            android:textSize="50sp" />
+            android:textSize="60sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,6 +76,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="OPPONENT SCORE:"
                 android:textAlignment="center"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <TextView
@@ -82,6 +87,7 @@
                 android:fontFamily="@font/londrina_shadow"
                 android:text="0"
                 android:textAlignment="center"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -176,7 +182,23 @@
 
     </LinearLayout>
 
-    <!-- The player's hand at the bottom -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lastAsk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Card Asked:"
+            android:textColor="#FFC107"
+            android:textSize="30sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -283,6 +305,8 @@
             android:src="@drawable/card_back" />
 
     </LinearLayout>
+
+    <!-- The player's hand at the bottom -->
 
     <!-- The opponent's hand at the top -->
 </LinearLayout>

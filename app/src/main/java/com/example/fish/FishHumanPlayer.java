@@ -2,14 +2,8 @@ package com.example.fish;
 
 import static android.graphics.Color.RED;
 
-import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +14,6 @@ import com.example.GameFramework.infoMessage.GameInfo;
 import com.example.GameFramework.players.GameHumanPlayer;
 import com.example.game_test_b.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -40,6 +33,9 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
 
     private GameMainActivity myActivity;
+    private FishGameState fishState;
+    private TextView lastAsk = null;
+
 
     /**
      * constructor
@@ -71,7 +67,7 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
 
     @Override
     public View getTopView() {
-        return myActivity.findViewById(R.id.layout_main);
+        return myActivity.findViewById(R.id.layout);
     }
     //Need to set up view for GUI
 
@@ -127,6 +123,16 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
             setPlayerCardImages(playerArrHand, images);
             setOpponentCardImages(opponentArrHand, opponentImages);
             setDeck();
+            // set the background image
+            setBackground(R.drawable.fish_background);
+            //show what AI ask for
+            if(((FishGameState) info).getCurrAsk() == 0) {
+                this.lastAsk.setText("No Card Has Been Asked Yet");
+            }
+            else {
+                this.lastAsk.setText("Last Card Asked: " + ((FishGameState) info).getCurrAsk());
+            }
+
 
             // set on click listeners for each player card
             for (int i = 0; i < images.size(); i++) {
@@ -179,6 +185,16 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         // initialize scores
         this.myScore = (TextView) activity.findViewById(R.id.player0score);
         this.oppScore = (TextView) activity.findViewById(R.id.player1score);
+
+        //set the background image
+        //LinearLayout layout = (LinearLayout) activity.findViewById(R.id.layout);
+        //layout.setBackgroundResource(R.drawable.fish_background);
+
+        // set the background image
+        setBackground(R.drawable.fish_background);
+
+        //show what AI ask for
+        this.lastAsk = (TextView) activity.findViewById(R.id.lastAsk);
     }
 
     // helper method to set the card images on game start
@@ -267,6 +283,11 @@ public class FishHumanPlayer extends GameHumanPlayer implements View.OnClickList
         int imageResource = myActivity.getResources().getIdentifier("card_back",
                 "drawable", myActivity.getPackageName());
         deck.setImageResource(imageResource);
+    }
+
+    public void setBackground(int resourceId) {
+        LinearLayout layout = (LinearLayout) myActivity.findViewById(R.id.layout);
+        layout.setBackgroundResource(resourceId);
     }
 
     // num to string for before stacking
