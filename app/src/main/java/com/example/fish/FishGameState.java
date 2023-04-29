@@ -21,7 +21,7 @@ public class FishGameState extends GameState {
 
     private int currAsk;
 
-    FishGameState() {
+    public FishGameState() {
         currentPlayer = 0;
         deck = new ArrayList<>();
         this.deck = createDeck();
@@ -67,7 +67,7 @@ public class FishGameState extends GameState {
         this.currAsk = deep.currAsk;
     }
 
-    private ArrayList<FishCard> createDeck() {
+    public ArrayList<FishCard> createDeck() {
         ArrayList<FishCard> tempDeck = new ArrayList<>();
         for (int i = 1; i <= 13; i++) {
             FishCard heartCard = new FishCard("hearts", i);
