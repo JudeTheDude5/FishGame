@@ -15,19 +15,23 @@ import java.util.Random;
 public class FishGameState extends GameState {
     // Instances
     public int currentPlayer;
+
     public ArrayList<FishCard> deck;
     public ArrayList<FishCard> player0Hand; //Map of the player ID to their hand of cards
     public ArrayList<FishCard> player1Hand;
     public ArrayList<Integer> priority;
     public ArrayList<Integer> doNotAsk;
+    //private Map<Integer, Integer> playerScores; // ..scores?!
     private int player0Score;
     private int player1Score;
+    public ArrayList<FishCard> recentAsk;
+
     private int currAsk;
 
     /**
      * Constructor for FishGameState
      */
-    FishGameState() {
+    public FishGameState() {
         currentPlayer = 0;
         deck = new ArrayList<>();
         this.deck = createDeck();
@@ -35,8 +39,10 @@ public class FishGameState extends GameState {
         player1Hand = new ArrayList<>();
         priority = new ArrayList<>();
         doNotAsk = new ArrayList<>();
+        //dealCards(this.player0Hand);
         this.player0Hand = dealCards();
         this.player1Hand = dealCards();
+        //dealCards(this.player1Hand);
         player0Score = 0;
         player1Score = 0;
         currAsk = 0;
@@ -51,6 +57,7 @@ public class FishGameState extends GameState {
     public FishGameState(FishGameState deep) {
         // Variables
         currentPlayer = deep.currentPlayer;
+
         deck = new ArrayList<>();
 
         // Copies the deck
@@ -87,7 +94,7 @@ public class FishGameState extends GameState {
      *
      * @return An ArrayList of FishCards
      */
-    private ArrayList<FishCard> createDeck() {
+    public ArrayList<FishCard> createDeck() {
         // Variables
         ArrayList<FishCard> tempDeck = new ArrayList<>();
 
@@ -242,66 +249,144 @@ public class FishGameState extends GameState {
      * Checks the player hand for four of a kind
      */
     public void drawFive(int playerIdx) {
-        if (playerIdx == 0) {
+        if (playerIdx == 0) { // user
             for (int i = 0; i < 5; i++) {
-                if (getDeck().size() != 0) {
+                if (getDeck().size() != 0) { // while the deck isn't empty
+
+                    // drawing 5 random cards from the deck
                     Random q = new Random();
                     int draw = q.nextInt(getDeck().size());
                     getPlayer0Hand().add(getDeck().get(draw));
                     getDeck().remove(draw);
-                    checkForFour();
+                    checkForFour(); // checks if the new cards include a four of a kind
                 }
             }
-        } else {
+        }
+        else { // computer
             for (int i = 0; i < 5; i++) {
-                if (getDeck().size() != 0) {
+                if (getDeck().size() != 0) { //while the deck isn't empty
+                    // drawing 5 random cards from the deck
                     Random q = new Random();
                     int draw = q.nextInt(getDeck().size());
                     getPlayer1Hand().add(getDeck().get(draw));
                     getDeck().remove(draw);
-                    checkForFour();
+                    checkForFour(); // checks if the new cards include a four of a kind
                 }
             }
         }
     }
 
+    /**
+     * Gets the smarter value for the SmartAI to ask
+     *
+     * @return An int
+     */
     public int getSmartVal() {
+        // Variables
         int value;
 
+        // If the computer hand is empty just return a number
         if (getPlayer1Hand().size() == 0) {
             return -1;
         }
 
+        // First loop through
+        // Checks to see if the computer hand contains any cards from the priority array
         if (getPriority() != null) {
             for (FishCard card : getPlayer1Hand()) {
                 if (getPriority().contains(card.getValue())) {
                     value = card.getValue();
                     Integer integerToRemove = value;
                     getPriority().remove(integerToRemove);
-                    return value;
+                    return value; // return value if it is in it
                 }
             }
         }
+        // Second loop through
+        // Checks to see if card is in doNotAsk array
         if (getDoNotAsk() != null) {
             for (FishCard card : getPlayer1Hand()) {
                 if (!(getDoNotAsk().contains(card.getValue()))) {
                     value = card.getValue();
-                    return value;
+                    return value; // will return the first card that isn't in the array
                 }
             }
         }
 
+        // Last loop if none of its cards are in priority array
+        // And all of them are in the doNotAsk array
+        Random z = new Random();
+        int rand = z.nextInt(getPlayer1Hand().size());
+
+        // This is to typecast it from a Card object to an integer
         ArrayList<Integer> intValues = new ArrayList<Integer>();
         for (FishCard card : getPlayer1Hand()) {
             intValues.add(card.getValue());
         }
-        return intValues.get(0);
+        return intValues.get(rand); // returns a random number from hand
     }
+    /**
+     *  Checks if game is over
+     *
+     * @return A boolean
+     */
     public boolean isGameOver() {
         if(player0Hand.isEmpty() || player1Hand.isEmpty()){
             return true;
         }
         return false;
+    }
+
+    /**
+     * For the most recent ask display to be the correct text rather than a number
+     *
+     * @param i The index
+     * @return A String
+     */
+    public String numberToString(int i) {
+        String stringNum = "";
+        switch (i) {
+            case 1:
+                stringNum = "Ace";
+                break;
+            case 2:
+                stringNum = "2";
+                break;
+            case 3:
+                stringNum = "3";
+                break;
+            case 4:
+                stringNum = "4";
+                break;
+            case 5:
+                stringNum = "5";
+                break;
+            case 6:
+                stringNum = "6";
+                break;
+            case 7:
+                stringNum = "7";
+                break;
+            case 8:
+                stringNum = "8";
+                break;
+            case 9:
+                stringNum = "9";
+                break;
+            case 10:
+                stringNum = "10";
+                break;
+            case 11:
+                stringNum = "Jack";
+                break;
+            case 12:
+                stringNum = "Queen";
+                break;
+            case 13:
+                stringNum = "King";
+                break;
+        }
+        return stringNum;
     }
 
 }
