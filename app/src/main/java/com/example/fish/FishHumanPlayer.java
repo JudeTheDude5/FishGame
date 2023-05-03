@@ -4,6 +4,7 @@ import static android.graphics.Color.RED;
 
 import android.app.AlertDialog;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -140,10 +141,18 @@ public class FishHumanPlayer extends GameHumanPlayer {
             // Set the background image
             setBackground(R.drawable.fish_background);
 
-            // Initialize the MediaPlayer object with the sound file
-            mediaPlayer = MediaPlayer.create(myActivity, R.raw.sound);
-            // Start playing the background sound
-            mediaPlayer.start();
+            //make the music stops when the game is over.
+            if (((FishGameState) info).isGameOver()) {
+                try {
+                    mediaPlayer.stop();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                    // handle the exception
+                } finally {
+                    // release the mediaPlayer object to free up system resources
+                    mediaPlayer.release();
+                }
+            }
 
             // Shows the state of the current player
             ImageView arrow1 = myActivity.findViewById(R.id.arrow_blue);
@@ -197,16 +206,6 @@ public class FishHumanPlayer extends GameHumanPlayer {
             }
         }
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        // Release the MediaPlayer object
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
 
     /**
      * Initializes the Graphic User Interface of the game
@@ -255,6 +254,9 @@ public class FishHumanPlayer extends GameHumanPlayer {
 
         // Show what AI ask for
         this.lastAsk = (TextView) activity.findViewById(R.id.lastAsk);
+
+        // Initialize the MediaPlayer object with the sound file
+        playBackgroundMusic();
     }
 
     /**
@@ -369,6 +371,16 @@ public class FishHumanPlayer extends GameHumanPlayer {
         // Finds the layout of the background and sets it to an image
         LinearLayout layout = (LinearLayout) myActivity.findViewById(R.id.layout);
         layout.setBackgroundResource(resourceId);
+    }
+
+    private void playBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+        mediaPlayer = MediaPlayer.create(myActivity, R.raw.sound);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
     }
 
     /**
